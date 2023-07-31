@@ -1,0 +1,129 @@
+{
+  "categoryData": [
+    {
+      "name": "Demographic",
+      "subCategories": [
+        {
+          "name": "Age",
+          "subCategories": [
+            {
+              "name": "<20",
+              "count": "3.2M"
+            },
+            {
+              "name": "20-29",
+              "count": "4.2M"
+            },
+            {
+              "name": "30-39",
+              "count": "3.2M"
+            },
+            {
+              "name": "40-49",
+              "count": "4.2M"
+            },
+            {
+              "name": "50-59",
+              "count": "2.4M"
+            },
+            {
+              "name": ">=60",
+              "count": "3.2M"
+            }
+          ]
+        },
+        {
+          "name": "Gender",
+          "subCategories": [
+            {
+              "name": "Male",
+              "count": "3.2M"
+            },
+            {
+              "name": "Female",
+              "count": "4.2M"
+            }
+          ]
+        },
+        {
+          "name": "Handset",
+          "subCategories": []
+        },
+        {
+          "name": "Device type",
+          "subCategories": []
+        }
+      ]
+    },
+    {
+      "name": "Geographic",
+      "subCategories": [
+        {
+          "name": "Region",
+          "subCategories": [
+            {
+              "name": "South",
+              "count": "3.2M"
+            },
+            {
+              "name": "North",
+              "count": "4.2M"
+            },
+            {
+              "name": "East",
+              "count": "3.2M"
+            },
+            {
+              "name": "West",
+              "count": "4.2M"
+            }
+          ]
+        },
+        {
+          "name": "Country",
+          "subCategories": [
+            {
+              "name": "India",
+              "count": "3.2M"
+            },
+            {
+              "name": "USA",
+              "count": "4.2M"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Commercial Relevance",
+      "subCategories": [
+        {
+          "name": "Category 1",
+          "subCategories": [
+            {
+              "name": "Option 1",
+              "count": "3.2M"
+            },
+            {
+              "name": "Option 2",
+              "count": "4.2M"
+            },
+            {
+              "name": "Option 3",
+              "count": "3.2M"
+            }
+          ]
+        },
+        {
+          "name": "Category 2",
+          "subCategories": [
+            {
+              "name": "Option 1",
+              "count": "3.2M"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

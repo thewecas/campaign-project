@@ -1,1 +1,180 @@
-/* You can add global styles to this file, and also import other style files */
+@import "https://www.nerdfonts.com/assets/css/webfont.css";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+@import "./_variables";
+
+:root {
+  font-size: min(3vw, 14px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  background-color: $bg;
+
+  @media screen and (width<768px) {
+    height: 100vh;
+    height: 100svh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.button-container {
+  margin-block: 2rem;
+  display: flex;
+  gap: 1rem;
+
+  button {
+    &:nth-child(1):is(.primary-btn) {
+      margin-left: auto;
+    }
+
+    &.secondary-btn:has(+ *)+* {
+      margin-left: auto;
+    }
+  }
+}
+
+button {
+  padding: 0.75rem 1rem;
+  border: transparent;
+  background-color: transparent;
+  min-width: 7rem;
+  height: min-content;
+  border-radius: 0.2rem;
+  font-size: 1rem;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(80%);
+  }
+
+  &.primary-btn {
+    background-color: $primary;
+    color: white;
+
+    &:disabled {
+      background-color: lighten($primary, 0.5);
+
+      &:hover {
+        cursor: no-drop;
+      }
+    }
+  }
+
+  &.secondary-btn {
+    background-color: $secondary;
+  }
+
+  &.outline-btn {
+    border: 2px solid $primary;
+  }
+
+  &.edit-btn {
+    background-color: darkgreen;
+  }
+
+  &.delete-btn {
+    background-color: rgb(210, 0, 0);
+    color: white;
+  }
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  height: fit-content;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid $secondary;
+  border-radius: 0.2rem;
+
+  &:focus-visible {
+    outline: transparent;
+  }
+}
+
+input,
+textarea {
+  &:focus-visible {
+    border-bottom: 2px solid $primary;
+    outline: transparent;
+  }
+}
+
+textarea {
+  resize: none;
+  height: 8rem;
+}
+
+.required {
+  &:after {
+    content: "*";
+    color: red;
+    font-weight: 600;
+  }
+}
+
+button,
+a {
+  text-decoration: none;
+  font-weight: 500;
+  color: unset;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+::-webkit-scrollbar {
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background-color: rgba($accent, 0.8);
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba($secondary, 0.5);
+  border-radius: 20px;
+}

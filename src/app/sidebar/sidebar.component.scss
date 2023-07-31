@@ -1,0 +1,140 @@
+@import "../../_variables";
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5rem;
+  padding: 1.5rem 1rem;
+  min-height: 100vh;
+  min-height: 100svh;
+  height: 100%;
+  width: 5.4rem;
+  background-color: #fff;
+  transition: width 0.3s ease-in-out;
+
+  p {
+    visibility: hidden;
+    font-size: 1rem;
+    transform: translateX(-30px);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+  }
+
+  i {
+    font-size: 1.3rem;
+  }
+
+  &.expanded {
+    width: 12rem;
+
+    p {
+      visibility: visible;
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .expand-btn {
+      rotate: 180deg;
+      transition: rotate 0.3s ease-in-out;
+    }
+  }
+
+  .profile {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    height: 3rem;
+    align-items: center;
+    i {
+      color: $accent;
+    }
+    .user-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    .user-role {
+      font-size: 0.9rem;
+    }
+  }
+
+  .navigation {
+    flex-basis: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    a {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: rgba($secondary, 0.5);
+      border-radius: 0.2rem;
+      transition: 0.2s ease-in-out;
+      color: $accent;
+      &:hover {
+        background-color: $secondary;
+      }
+      &.active {
+        background-color: $accent;
+        color: $secondary;
+      }
+    }
+  }
+
+  .expand-btn {
+    padding: 1rem;
+    background-color: rgba($secondary, 0.5);
+    width: min-content;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    margin-left: auto;
+    text-align: center;
+    color: $accent;
+    i {
+      font-size: 1rem !important;
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: $secondary;
+    }
+  }
+
+  @media (width<768px) {
+    width: 100%;
+    height: min-content;
+    min-height: unset;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    // height: 6.8rem;
+    height: min-content;
+    position: fixed;
+    padding: 1rem !important;
+    bottom: 0;
+    p {
+      display: none;
+    }
+    .profile {
+      background-color: rgba($secondary, 0.5);
+      padding: 1rem !important;
+      height: min-content;
+      .user {
+        display: none;
+      }
+    }
+    .navigation {
+      flex-basis: unset;
+      flex-direction: row;
+      padding: 0;
+      gap: 2rem;
+      a {
+        height: min-content;
+      }
+    }
+    .expand-btn {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+<div class="sidebar-container" [class.expanded]="isNavExpanded">
+
+
+  <div class="profile">
+    <i class="nf nf-fa-user"></i>
+    <div class="user">
+      <p class="user-name">Vikas</p>
+      <p class="user-role">Admin</p>
+    </div>
+  </div>
+
+  <div class="navigation">
+    <a routerLinkActive="active" routerLink="/dashboard">
+      <i class="nf nf-md-view_dashboard"></i>
+      <p>Dashboard</p>
+    </a>
+    <a routerLinkActive="active" routerLink="/analytics">
+      <i class="nf nf-md-google_analytics"></i>
+      <p>Analytics</p>
+    </a>
+    <a routerLinkActive="active" routerLink="/campaign/list">
+      <i class="nf nf-md-bullhorn"></i>
+      <p>Campaign</p>
+    </a>
+    <a routerLinkActive="active" routerLink="/users">
+      <i class="nf nf-fa-users"></i>
+      <p>Users</p>
+    </a>
+  </div>
+
+  <div class="expand-btn" (click)="isNavExpanded=!isNavExpanded">
+    <i class="nf nf-fa-angle_right"></i>
+  </div>
+
+</div>

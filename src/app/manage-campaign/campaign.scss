@@ -1,0 +1,194 @@
+@import "../../_variables";
+:host {
+  display: block;
+}
+.__container {
+  background-color: #fff;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  @media (width<768px) {
+    padding: 1rem;
+    overflow: hidden;
+
+    .main {
+      overflow: scroll;
+      &::-webkit-scrollbar {
+        width: 0rem;
+      }
+    }
+  }
+
+  .head {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  > * {
+    display: block;
+    width: max-content;
+  }
+  select {
+    background-color: rgba($secondary, 0.5);
+    width: 10rem;
+  }
+  i {
+    font-size: 1.2rem;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.main {
+  height: max-content;
+}
+
+table {
+  height: max-content;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  th {
+    font-weight: 600;
+  }
+  td {
+    font-weight: 500;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 1rem 0.5rem;
+    font-size: 1rem;
+  }
+}
+
+.list-campaign {
+  th,
+  td {
+    border-bottom: 1px solid black;
+    &:nth-child(1) {
+      width: 10%;
+      min-width: 8ch;
+    }
+    &:nth-child(2) {
+      min-width: 19ch;
+      &:after:not(th) {
+        content: "\f465";
+        font-family: "NerdFontsSymbols Nerd Font";
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+      &:hover:not(th) {
+        cursor: pointer;
+        text-decoration: underline;
+        text-decoration-color: black;
+        text-underline-offset: 5px;
+      }
+    }
+    &:nth-child(3) {
+      width: 15%;
+      min-width: 15ch;
+      &:not(td) {
+        padding-inline: 1rem;
+      }
+    }
+    &:nth-child(4) {
+      width: 10%;
+      min-width: 8ch;
+    }
+    &:nth-child(5) {
+      width: 15%;
+      min-width: 15ch;
+    }
+    &:nth-child(6) {
+      width: 7%;
+      min-width: 12ch;
+      select {
+        background-color: rgba($secondary, 0.5);
+      }
+    }
+  }
+}
+
+.ctr {
+  &:after:not(th) {
+    content: "%";
+  }
+}
+
+.year {
+  color: gray;
+  font-size: 0.9rem;
+  &::before {
+    content: "(";
+  }
+  &::after {
+    content: ")";
+  }
+}
+
+.back {
+  &::before {
+    content: "\f434";
+    font-family: "NerdFontsSymbols Nerd Font";
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+}
+
+.status {
+  min-width: 6rem;
+  max-width: 7rem;
+  display: block;
+  text-align: center;
+  padding: 0.4rem 0.5rem;
+  border-radius: 2rem;
+  font-size: 0.95rem;
+  &.Completed {
+    background-color: rgba(187, 255, 186, 0.8);
+    color: rgb(28, 141, 5);
+  }
+  &.Draft {
+    background-color: rgb(193, 193, 193, 0.8);
+    color: rgb(88, 88, 89);
+  }
+  &.Scheduled {
+    background-color: rgba(186, 196, 255, 0.8);
+    color: rgb(5, 19, 141);
+  }
+}
+
+.view-campaign {
+  tr {
+    td {
+      &:nth-child(1) {
+        padding-inline: 1rem;
+        &::after {
+          content: " :";
+        }
+      }
+    }
+  }
+  & + .button-container {
+    justify-content: flex-end;
+  }
+}
+
+.table-placeholder {
+  min-height: 35vh;
+  display: grid;
+  place-content: center;
+  h2 {
+    color: lighten($secondary, 0.5);
+  }
+}

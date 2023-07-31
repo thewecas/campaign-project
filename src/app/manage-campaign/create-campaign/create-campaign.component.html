@@ -1,0 +1,287 @@
+<div class="stepper">
+  <ul>
+    <li class="done">
+      <i></i> Campaign Detail
+    </li>
+    <li class="done">
+      <hr> <i></i> Location Detail
+    </li>
+    <li class="active">
+      <hr> <i></i> Audience
+    </li>
+    <li>
+      <hr> <i></i> Campaign Schedule
+    </li>
+    <li>
+      <hr> <i></i> Campaign Summary
+    </li>
+
+  </ul>
+</div>
+
+<div class="__container">
+
+
+  <!-- Display selected section outside ngSwitch -->
+  <ng-container [ngSwitch]="sectionList[formFlag]">
+    <ng-container *ngSwitchCase="'Details'">
+      <ng-container *ngTemplateOutlet="Details"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'Location'">
+      <ng-container *ngTemplateOutlet="Location"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'Audience'">
+      <ng-container *ngTemplateOutlet="Audience"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'Schedule'">
+      <ng-container *ngTemplateOutlet="Schedule"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'Summary'">
+      <ng-container *ngTemplateOutlet="Summary"></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <!-- Campaign details form  -->
+  <ng-template #Details>
+    <h2>Campaign Details</h2>
+    <form class="campaign-form">
+      <div>
+        <label class="required" for="">Campaign Name</label>
+        <input type="text" placeholder="Campaign Name" />
+      </div>
+      <div>
+        <label class="required" for="">Campaign Objective</label>
+        <input type="text" placeholder="Campaign Objective" />
+      </div>
+      <div class="columns-2">
+        <div>
+          <label for="">Campaign Category (Optional)</label>
+          <select name="" id="">
+            <option value="" selected hidden disabled>
+              Select Campaign Category
+            </option>
+            <option *ngFor="let category of categoryList" value="{{category}}">{{category}}</option>
+          </select>
+        </div>
+        <div>
+          <label for="">Offer Type (Optional)</label>
+          <select name="" id="">
+            <option value="" selected hidden disabled>Select Offer Type</option>
+            <option *ngFor="let offerType of offerTypeList" value="{{offerType}}">{{offerType}}</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label for="">Additional Comments (Optional)</label>
+        <textarea name="" id="" placeholder="Additional Comments" cols="30" rows="10"></textarea>
+      </div>
+      <div class="button-container">
+        <button type="submit" class="primary-btn" [disabled]="false">Next</button>
+      </div>
+    </form>
+  </ng-template>
+
+
+  <!-- campaign location form  -->
+  <ng-template #Location>
+    <h2>Campaign Location</h2>
+
+    <form class="location-form-container">
+      <div class="main_container">
+        <div class="map-container">
+          <div class="location-input-box">
+            <input type="text" placeholder="Search">
+            <button type="submit"><i class="nf nf-fa-plus_circle"></i></button>
+          </div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.160117212902!2d74.84101240179461!3d12.891481985242258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35b2c43c5594d%3A0xad33997edef04c61!2sPace%20Wisdom%20Solutions!5e1!3m2!1sen!2sin!4v1690218013197!5m2!1sen!2sin"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+
+        <div class="location-input-container" #locationInputContainer>
+          <div class="input-container" *ngIf="locationArray.length>0">
+            <div class="location-input-wrapper" *ngFor="let location of locationArray; let i=index">
+              <input class="location-input" type="text" value="{{location}}">
+              <i class="fa-solid fa-trash" (click)="removeLocation(i)"></i>
+            </div>
+          </div>
+          <div class="input-container-placeholder" *ngIf="locationArray.length==0">
+            <h2>Please add location</h2>
+          </div>
+          <div class="radius-input">
+            <label for="">Radius</label>
+            <select name="radius" id="">
+              <option *ngFor="let radius of radiusList" value="{{radius}}">{{radius}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button type="button" class="secondary-btn" (click)="prev()">Back</button>
+        <button type="button" class="primary-btn" (click)="next()">Next</button>
+      </div>
+    </form>
+  </ng-template>
+
+  <!-- campaign audience form  -->
+  <ng-template #Audience>
+    <form>
+      <div class="input-container">
+        <input type="text" placeholder="Search">
+        <button type="button" (click)="isdDropdownVisible=!isdDropdownVisible">Browse&nbsp;<i
+            class="fa-solid fa-angle-down"></i></button>
+      </div>
+      <div class="dropdown-container " [class.visible]="isdDropdownVisible">
+
+        <div class="dropdown-section">
+          <h3 class="heading">Industry</h3>
+
+          <div class="category-container">
+            <ng-container *ngFor="let category of audienceCategories">
+              <div class="category">
+                <div>
+                  <h3>{{category.name}}</h3>
+                  <p class="categories-count">{{category.subCategories.length}}</p>
+                </div>
+                <i class="fa-solid fa-angle-right"></i>
+
+                <div class="sub-category-container">
+                  <ng-container *ngFor="let subCategory of category.subCategories">
+                    <div class="category">
+                      <div>
+                        <h3>{{subCategory.name}}</h3>
+                        <p class="categories-count">{{subCategory.subCategories.length}}</p>
+                      </div>
+                      <i class="fa-solid fa-angle-right"></i>
+
+                      <div class="sub-category-option-container">
+                        <ng-container *ngFor="let option of subCategory.subCategories">
+                          <div class="category">
+                            <input type="checkbox">
+                            <label>{{option.name}}</label>
+                            <span class="count">{{option.count}}</span>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <div class="dropdown-section">
+          <h3 class="heading">Category</h3>
+          <div class="category-container"></div>
+        </div>
+
+        <div class="dropdown-section">
+          <h3 class="heading">Application</h3>
+          <div class="category-container"></div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+
+  <!-- campaign schedule form  -->
+  <ng-template #Schedule>
+    <h2>Campaign Schedule Details</h2>
+    <form>
+      <div>
+        <label class="required" for="">Start Date</label>
+        <input type="datetime-local" placeholder="Campaign Objective">
+      </div>
+      <div>
+        <label class="required" for="">End Date</label>
+        <input type="datetime-local" placeholder="Campaign Objective">
+      </div>
+    </form>
+    <div class="button-container">
+      <button class="secondary-btn" (click)="prev()">Back</button>
+      <button type="button" class="primary-btn">Next</button>
+    </div>
+  </ng-template>
+
+
+  <!-- campaign summary form  -->
+  <ng-template #Summary>
+    <h2>Campaign Summary</h2>
+    <div class="hero-container">
+      <div class="details-container">
+        <table>
+          <tr>
+            <td>Campaign Id</td>
+            <td>{{newCampaign.id }}</td>
+          </tr>
+          <tr>
+            <td>Campaign Name</td>
+            <td>{{newCampaign.name }}</td>
+          </tr>
+          <tr>
+            <td>Campaign Objective</td>
+            <td>{{ newCampaign.objective }}</td>
+          </tr>
+          <tr>
+            <td>Campaign Category</td>
+            <td>{{ newCampaign.category }}</td>
+          </tr>
+          <tr>
+            <td>Offer Type</td>
+            <td>{{ newCampaign.offerType }}</td>
+          </tr>
+          <tr>
+            <td>Location</td>
+            <td>{{ newCampaign.location }}</td>
+          </tr>
+          <tr>
+            <td>Radius</td>
+            <td>{{ newCampaign.radius }}</td>
+          </tr>
+          <tr>
+            <td>Audience</td>
+            <td>{{ newCampaign.audience }}</td>
+          </tr>
+          <tr>
+            <td>Start Date</td>
+            <td>
+              {{ newCampaign.schedule.startDate | date : "d MMMM, hh:mm a" }}
+              <span class="year">{{ newCampaign.schedule.startDate | date : "YYYY" }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>End Date</td>
+            <td>
+              {{ newCampaign.schedule.endDate | date : "d MMMM, hh:mm a" }}
+              <span class="year">{{ newCampaign.schedule.endDate | date : "YYYY" }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>Status</td>
+            <td class="status">
+              <span class="{{newCampaign.status}}">{{ newCampaign.status }}</span>
+            </td>
+          </tr>
+          <tr>
+            <td>CTR</td>
+            <td class="ctr">{{ newCampaign.ctr }}</td>
+          </tr>
+
+        </table>
+
+      </div>
+
+      <div class="image-container">
+        <img src="../../../../assets/imges/campaign.jpg" alt="" />
+      </div>
+    </div>
+    <div class="button-container">
+      <button class="secondary-btn" (click)="prev()">Back</button>
+      <button class="primary-btn">Save</button>
+    </div>
+  </ng-template>
+
+</div>

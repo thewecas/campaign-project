@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "id": "345678",
+      "name": "Food, John Boo",
+      "status": "Completed",
+      "ctr": 2.5,
+      "schedule": {
+        "startDate": "2021-01-15T08:59:00"
+      }
+    },
+    {
+      "id": "43563",
+      "name": "Food, Michael Robinson",
+      "status": "Completed",
+      "ctr": 3.1,
+      "schedule": {
+        "startDate": "2021-12-12T08:56:00"
+      }
+    },
+    {
+      "id": "234334",
+      "name": "Food,Tesco, Alexander Robinson",
+      "status": "Draft",
+      "ctr": 2.7,
+      "schedule": {
+        "startDate": "2021-01-16T08:56:00"
+      }
+    },
+    {
+      "id": "045322",
+      "name": "Makro, Jenifer Pinsker",
+      "status": "Draft",
+      "ctr": 1.5,
+      "schedule": {
+        "startDate": "2021-01-29T08:56:00"
+      }
+    },
+    {
+      "id": "342223",
+      "name": "Coffee, Bob robinson",
+      "status": "Scheduled",
+      "ctr": 1.8,
+      "schedule": {
+        "startDate": "2022-01-01T08:56:00"
+      }
+    },
+    {
+      "id": "234234",
+      "name": "Tesco, Michael Robinson",
+      "status": "Completed",
+      "ctr": 3.4,
+      "schedule": {
+        "startDate": "2021-02-20T08:56:00"
+      }
+    }
+  ]
+}

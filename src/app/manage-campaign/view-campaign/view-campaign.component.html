@@ -1,0 +1,41 @@
+<div class="__container">
+  <div class="head">
+    <h2>Campaign Details</h2>
+    <button class="secondary-btn back" routerLink="/campaign/list">Back</button>
+
+  </div>
+
+  <div class="main">
+    <table class="view-campaign">
+      <tbody>
+        <tr>
+          <td>Id</td>
+          <td>{{campaign.id}}</td>
+        </tr>
+        <tr>
+          <td>Campaign Name</td>
+          <td>{{campaign.name}}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td><span class="status {{campaign.status}}">{{campaign.status}}</span></td>
+        </tr>
+        <tr>
+          <td>CTR</td>
+          <td class="ctr">{{campaign.ctr}}</td>
+        </tr>
+        <tr>
+          <td>Start Date</td>
+          <td>{{campaign.schedule.startDate| date :"d MMM, hh:mm a" }}
+            <span class="year">{{campaign.schedule.startDate| date :"yyyy" }}</span>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <div class="button-container">
+      <button class="delete-btn">Delete</button>
+      <button class="primary-btn">Edit</button>
+    </div>
+  </div>
+</div>

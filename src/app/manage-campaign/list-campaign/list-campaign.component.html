@@ -1,0 +1,58 @@
+<div class="__container">
+  <div class="head">
+    <button class="primary-btn" routerLink="/campaign/create">Create Campaign</button>
+    <div class="filters">
+      <label>Sort By</label>
+      <select name="sortBy" [(ngModel)]="sortBy" (change)="sortTable()">
+        <option value="" selected disabled hidden>Choose</option>
+        <option value="name">Campaign Name</option>
+        <option value="status">Status</option>
+        <option value="ctr">CTR</option>
+        <option value="startDate">Start Date</option>
+      </select>
+      <i class="nf" [ngClass]="isAscending? 'nf-oct-sort_asc' : 'nf-oct-sort_desc'" (click)="sortTable()"></i>
+    </div>
+
+  </div>
+
+  <div class="main">
+    <table class="list-campaign" *ngIf="campaignData.length!=0">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Campaign Name</th>
+          <th>Status</th>
+          <th>CTR</th>
+          <th>Start Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let campaign of campaignData;let i=index">
+          <td>{{campaign.id}}</td>
+          <td [routerLink]="['/campaign/view/'+i]">{{campaign.name}} </td>
+          <td>
+            <span class="status {{campaign.status}}">
+              {{campaign.status}}
+            </span>
+          </td>
+          <td class="ctr">{{campaign.ctr}}</td>
+          <td>
+            {{campaign.schedule.startDate| date :"d MMM, hh:mm a" }}
+            <span class="year">{{campaign.schedule.startDate| date :"yyyy" }}</span>
+          </td>
+          <td>
+            <select>
+              <option value="" disabled hidden selected>Action</option>
+              <option value="edit">Edit</option>
+              <option value="delete">Delete</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="table-placeholder" *ngIf="campaignData.length==0">
+      <h2>Nothing to show here</h2>
+    </div>
+  </div>
+</div>
