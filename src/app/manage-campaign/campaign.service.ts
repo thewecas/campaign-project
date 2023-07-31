@@ -8,9 +8,6 @@ import * as campaignList from '../../assets/data/campaign.json';
 
 export class CampaignService {
   public campaignData: any[] = JSON.parse(JSON.stringify(campaignList)).data;
-
-  public newCampaign = {};
-
   constructor() {
   }
 
@@ -28,29 +25,8 @@ export class CampaignService {
     return Math.max(...this.campaignData.map(campaign => campaign.id), 10000) + 1;
   };
 
-  initiateNewCampaign() {
-    this.newCampaign = {
-      id: this.getNewCampaignId(),
-      name: '',
-      objective: '',
-      category: 'Category 1',
-      offerType: 'Offer 1',
-      comments: '',
-      location: [],
-      radius: '100M',
-      audience: [],
-      schedule: {
-        startDate: '',
-        endDate: '',
-      },
-      status: 'Draft',
-      ctr: 0,
-
-    };
-  };
-
-  saveNewCampaign() {
-    this.campaignData.push(this.newCampaign);
+  saveNewCampaign(newCampaign: any) {
+    this.campaignData.push(newCampaign);
     this.campaignDataObservable.next(this.campaignData);
   };
 
