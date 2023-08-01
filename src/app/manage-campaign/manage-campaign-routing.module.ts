@@ -6,9 +6,9 @@ import { ViewCampaignComponent } from './view-campaign/view-campaign.component';
 
 
 const routes: Routes = [
-  { path: 'campaign/list', component: ListCampaignComponent },
-  { path: 'campaign/view/:id', component: ViewCampaignComponent },
-  { path: 'campaign/create', component: CreateCampaignComponent },
+  { path: 'list', component: ListCampaignComponent },
+  { path: 'view/:id', component: ViewCampaignComponent },
+  { path: 'create', component: CreateCampaignComponent },
 ];
 
 @NgModule({

@@ -14,8 +14,6 @@ export class ListCampaignComponent implements OnInit {
 
   ngOnInit() {
     this.service.getAllCampaigns().subscribe(res => this.campaignData = res || []);
-    console.log(this.campaignData);
-
   };
 
   sortTable() {

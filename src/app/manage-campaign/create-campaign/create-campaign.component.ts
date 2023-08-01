@@ -97,7 +97,7 @@ export class CreateCampaignComponent {
   saveNewCampaign() {
     this.service.saveNewCampaign(this.newCampaign);
     this.formFlag = 0;
-    this.router.navigate(['/campaign/list']);
+    this.router.navigate(['/manage-campaign/list']);
   }
 
   next() {

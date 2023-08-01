@@ -1,6 +1,14 @@
+<div class="header">
+  <h1>Manage Campaign</h1>
+  <select name="" id="">
+    <option value="" selected>user@mymail.com</option>
+    <option value=""> admin@mymail.com</option>
+  </select>
+</div>
+
 <div class="__container">
   <div class="head">
-    <button class="primary-btn" routerLink="/campaign/create">Create Campaign</button>
+    <button class="primary-btn" routerLink="/manage-campaign/create">Create Campaign</button>
     <div class="filters">
       <label>Sort By</label>
       <select name="sortBy" [(ngModel)]="sortBy" (change)="sortTable()">
@@ -30,7 +38,7 @@
       <tbody>
         <tr *ngFor="let campaign of campaignData;let i=index">
           <td>{{campaign.id}}</td>
-          <td [routerLink]="['/campaign/view/'+i]">{{campaign.name}} </td>
+          <td [routerLink]="['/manage-campaign/view/'+i]">{{campaign.name}} </td>
           <td>
             <span class="status {{campaign.status}}">
               {{campaign.status}}

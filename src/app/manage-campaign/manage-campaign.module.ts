@@ -7,6 +7,7 @@ import { ListCampaignComponent } from './list-campaign/list-campaign.component';
 import { ManageCampaignRoutingModule } from './manage-campaign-routing.module';
 import { ViewCampaignComponent } from './view-campaign/view-campaign.component';
 
+console.log('loaded manage-campaign');
 
 @NgModule({
   declarations: [
