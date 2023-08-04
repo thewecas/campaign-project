@@ -1,0 +1,387 @@
+<app-header
+  [title]="title"
+  [campaignName]="detailsForm.value.name || 'New Campaign '"
+></app-header>
+
+<mat-stepper
+  [linear]="true"
+  [orientation]="(stepperOrientation | async)!"
+  #stepper
+>
+  <!-- campaign details section  -->
+  <mat-step [stepControl]="detailsForm" label="Campaign Details">
+    <ng-template matStepContent>
+      <form [formGroup]="detailsForm">
+        <h2>Campaign Details</h2>
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Name</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="Campaign Name"
+            required
+          />
+          <mat-error>Campaign Name is <strong>required</strong></mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Campaign Objective</mat-label>
+          <input
+            matInput
+            formControlName="objective"
+            placeholder="Campaign Objective"
+            required
+          />
+          <mat-error>Campaign Objective is <strong>required</strong></mat-error>
+        </mat-form-field>
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Campaign Category (Optional)</mat-label>
+            <mat-select formControlName="category">
+              <mat-option value="category 1">Category 1</mat-option>
+              <mat-option value="category 2">Category 2</mat-option>
+              <mat-option value="category 3">Category 3</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Offer Type (Optional)</mat-label>
+            <mat-select formControlName="offerType">
+              <mat-option value="offer 1">Offer 1</mat-option>
+              <mat-option value="offer 2">Offer 2</mat-option>
+              <mat-option value="offer 3">Offer 3</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Additional Comments</mat-label>
+          <textarea
+            formControlName="comments"
+            matInput
+            placeholder="Additional Comments"
+          ></textarea>
+        </mat-form-field>
+        <div class="btn-container">
+          <button mat-raised-button color="primary" matStepperNext>
+            <span>Next<mat-icon>arrow_forward</mat-icon></span>
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </mat-step>
+
+  <!-- location details section  -->
+  <mat-step [stepControl]="locationForm" label="Location Details">
+    <ng-template matStepContent>
+      <form [formGroup]="locationForm">
+        <h2>Location Details</h2>
+
+        <div class="wrapper-container">
+          <div class="map-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Search Location</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Search Location"
+                [(ngModel)]="value"
+                [ngModelOptions]="{ standalone: true }"
+              />
+              <button
+                *ngIf="value"
+                matSuffix
+                mat-icon-button
+                (click)="addLocation()"
+              >
+                <mat-icon>add_location</mat-icon>
+              </button>
+            </mat-form-field>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.160117212902!2d74.84101240179461!3d12.891481985242258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35b2c43c5594d%3A0xad33997edef04c61!2sPace%20Wisdom%20Solutions!5e1!3m2!1sen!2sin!4v1690218013197!5m2!1sen!2sin"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+          <div class="location-container">
+            <div
+              class="location-array-container"
+              *ngIf="getLocations().length != 0"
+              formArrayName="locations"
+            >
+              <ng-container
+                *ngFor="let location of getLocations(); let i = index"
+              >
+                <mat-form-field appearance="outline">
+                  <mat-label>Location</mat-label>
+                  <input matInput [formControlName]="i" />
+                  <button
+                    type="button"
+                    matSuffix
+                    mat-icon-button
+                    (click)="removeControl(i)"
+                  >
+                    <mat-icon color="warn">delete</mat-icon>
+                  </button>
+                </mat-form-field>
+              </ng-container>
+            </div>
+            <div
+              class="input-container-placeholder"
+              *ngIf="getLocations().length == 0"
+            >
+              <h2>Please Add Location</h2>
+            </div>
+            <mat-form-field appearance="outline">
+              <mat-label>Radius</mat-label>
+              <mat-select formControlName="radius" required>
+                <mat-option value="100M">100 M</mat-option>
+                <mat-option value="500M">500M</mat-option>
+                <mat-option value="1KM">1KM</mat-option>
+              </mat-select>
+              <mat-error>Radius is <strong>required</strong></mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="btn-container">
+          <button mat-raised-button matStepperPrevious>
+            <span>
+              <mat-icon>arrow_back</mat-icon>
+              Back
+            </span>
+          </button>
+          <button mat-raised-button color="primary" matStepperNext>
+            <span>Next<mat-icon>arrow_forward</mat-icon></span>
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </mat-step>
+
+  <!-- audience details section  -->
+  <mat-step label="Audience">
+    <ng-template matStepContent>
+      <form [formGroup]="locationForm">
+        <h2>Audience</h2>
+        <div class="col-9-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Search</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <button
+            mat-stroked-button
+            (click)="isDropDownVisible = !isDropDownVisible"
+          >
+            <span>Browse</span>
+          </button>
+        </div>
+        <div class="dropdown-container" [class.visible]="isDropDownVisible">
+          <div class="dropdown-section">
+            <h3 class="heading">Industry</h3>
+
+            <div class="category-container">
+              <ng-container *ngFor="let category of audienceCategories">
+                <div class="category">
+                  <div>
+                    <h3>{{ category.name }}</h3>
+                    <p class="categories-count">
+                      {{ category.subCategories.length }}
+                    </p>
+                  </div>
+                  <i class="nf nf-fa-angle_right"></i>
+
+                  <div class="sub-category-container">
+                    <ng-container
+                      *ngFor="let subCategory of category.subCategories"
+                    >
+                      <div class="category">
+                        <div>
+                          <h3>{{ subCategory.name }}</h3>
+                          <p class="categories-count">
+                            {{ subCategory.subCategories.length }}
+                          </p>
+                        </div>
+                        <i class="nf nf-fa-angle_right"></i>
+
+                        <div class="sub-category-option-container">
+                          <ng-container
+                            *ngFor="let option of subCategory.subCategories"
+                          >
+                            <div class="category">
+                              <input type="checkbox" />
+                              <label>{{ option.name }}</label>
+                              <span class="count">{{ option.count }}</span>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="dropdown-section">
+            <h3 class="heading">Category</h3>
+            <div class="category-container"></div>
+          </div>
+
+          <div class="dropdown-section">
+            <h3 class="heading">Application</h3>
+            <div class="category-container"></div>
+          </div>
+        </div>
+        <div class="btn-container">
+          <button mat-raised-button matStepperPrevious>
+            <span>
+              <mat-icon>arrow_back</mat-icon>
+              Back
+            </span>
+          </button>
+          <button mat-raised-button color="primary" matStepperNext>
+            <span>Next<mat-icon>arrow_forward</mat-icon></span>
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </mat-step>
+
+  <!-- campaign schedule section  -->
+  <mat-step [stepControl]="scheduleForm" label="Campaign Schedule">
+    <ng-template matStepContent>
+      <form [formGroup]="scheduleForm">
+        <h2>Campaign Schedule</h2>
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input
+              matInput
+              formControlName="startDate"
+              placeholder="MM/DD/YYY"
+              [matDatepicker]="picker1"
+              required
+            />
+            <mat-error>Start Date is <strong>required</strong></mat-error>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input
+              matInput
+              formControlName="endDate"
+              placeholder="MM/DD/YYY"
+              [matDatepicker]="picker2"
+            />
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="btn-container">
+          <button mat-raised-button matStepperPrevious>
+            <span>
+              <mat-icon>arrow_back</mat-icon>
+              Back
+            </span>
+          </button>
+          <button
+            mat-raised-button
+            matStepperNext
+            color="primary"
+            (click)="summarizeNewCampaign()"
+          >
+            <span>Next<mat-icon>arrow_forward</mat-icon></span>
+          </button>
+        </div>
+      </form>
+    </ng-template>
+  </mat-step>
+
+  <!-- campaign summary section  -->
+  <mat-step label="Summary">
+    <ng-template matStepContent>
+      <div class="table_container">
+        <div class="img-container">
+          <img src="../../../assets/images/campaign.jpg" alt="" />
+        </div>
+        <table class="view-campaign">
+          <tr>
+            <td>Id</td>
+            <td>{{ newCampaign.id }}</td>
+          </tr>
+          <tr>
+            <td>Campaign Name</td>
+            <td>{{ newCampaign.name }}</td>
+          </tr>
+          <tr>
+            <td>Campaign Objective</td>
+            <td>{{ newCampaign.objective }}</td>
+          </tr>
+          <tr>
+            <td>Category</td>
+            <td>{{ newCampaign.category }}</td>
+          </tr>
+          <tr>
+            <td>Offer Type</td>
+            <td>{{ newCampaign.offerType }}</td>
+          </tr>
+          <tr>
+            <td>Locations</td>
+            <td>{{ newCampaign.locations }}</td>
+          </tr>
+          <tr>
+            <td>Radius</td>
+            <td>{{ newCampaign.radius }}</td>
+          </tr>
+          <tr>
+            <td>Start Date</td>
+            <td>
+              {{ newCampaign.startDate | date : "d MMM, hh:mm a" }}
+              <span class="year">{{
+                newCampaign.startDate | date : "yyyy"
+              }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="newCampaign.endDate">
+            <td>End Date</td>
+            <td>
+              {{ newCampaign.endDate | date : "d MMM, hh:mm a" }}
+              <span class="year">{{
+                newCampaign.endDate | date : "yyyy"
+              }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="newCampaign.comments">
+            <td>Comments</td>
+            <td>{{ newCampaign.comments }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="btn-container">
+        <button mat-raised-button matStepperPrevious>
+          <span>
+            <mat-icon>arrow_back</mat-icon>
+            Back
+          </span>
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          (click)="saveNewCampaign()"
+        >
+          <span>Save & Next<mat-icon>arrow_forward</mat-icon></span>
+        </button>
+      </div>
+    </ng-template>
+  </mat-step>
+</mat-stepper>

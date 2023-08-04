@@ -1,0 +1,58 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.navigation {
+  padding-inline: 1.5rem;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-sidenav {
+  * {
+    line-height: 1.5 !important;
+  }
+}
+
+.active-link {
+  background-color: rgba(#4758b8, 0.8);
+}
+
+@media (width<600px) {
+  .mat-toolbar-single-row {
+    padding: 0 !important;
+  }
+}
+
+
+mat-toolbar {
+  display: none;
+
+  @media (width<600px) {
+    display: flex;
+  }
+}
+
+
+
+mat-sidenav-content {
+  background-color: rgb(229, 229, 229);
+}
+
+.router-outlet {
+  width: min(100%, 1024px);
+  margin-inline: auto;
+  padding: 1rem;
+}

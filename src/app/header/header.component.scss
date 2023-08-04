@@ -1,0 +1,42 @@
+.header {
+  display: flex;
+  width: 100%;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .campaignName {
+    padding: 0.5rem 1rem;
+    display: block;
+    min-width: 12rem;
+    background-color: rgba(rgb(0, 0, 0), 0.1);
+    border-radius: 0.2rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+
+  h1,
+  .campaignName {
+    margin-bottom: 1rem;
+  }
+
+  div {
+    &:last-child {
+      margin-left: auto;
+
+      @media (width<768px) {
+        display: none
+      }
+    }
+  }
+
+  @media (width<600px) {
+    position: absolute;
+    top: 10px;
+    z-index: 9999;
+    left: 50px;
+    color: white
+  }
+}

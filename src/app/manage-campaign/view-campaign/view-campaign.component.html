@@ -1,0 +1,45 @@
+<app-header [title]="title"></app-header>
+<div class="__container">
+  <div class="heading">
+    <h2>Campaign Details</h2>
+    <button mat-stroked-button routerLink="/manage-campaign/list">Back</button>
+  </div>
+  <div class="table_container">
+    <div class="img-container">
+      <img src="../../../assets/images/campaign.jpg" alt="" />
+    </div>
+    <table class="view-campaign">
+      <tr>
+        <td>Id</td>
+        <td>{{ campaign.id }}</td>
+      </tr>
+      <tr>
+        <td>Campaign Name</td>
+        <td>{{ campaign.name }}</td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td>
+          <span class="status {{ campaign.status }}">{{
+            campaign.status
+          }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>CTR</td>
+        <td class="ctr">{{ campaign.ctr || 0 }}</td>
+      </tr>
+      <tr>
+        <td>Start Date</td>
+        <td>
+          {{ campaign.startDate | date : "d MMM, hh:mm a" }}
+          <span class="year">{{ campaign.startDate | date : "yyyy" }}</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="btn-container">
+    <button mat-flat-button color="warn">Delete</button>
+    <button mat-flat-button color="primary">Edit</button>
+  </div>
+</div>

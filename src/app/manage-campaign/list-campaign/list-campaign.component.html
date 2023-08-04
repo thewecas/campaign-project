@@ -1,0 +1,120 @@
+<app-header [title]="title"></app-header>
+
+<section class="__container">
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/manage-campaign/create"
+  >
+    Create Campaign
+  </button>
+  <div class="table_container">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="list-campaign"
+      *ngIf="campaignData.length != 0"
+    >
+      <ng-container matColumnDef="id">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by id"
+        >
+          Id
+        </th>
+        <td mat-cell *matCellDef="let ele">{{ ele.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by Campaign Name"
+        >
+          Campaign Name
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let ele; let i = index"
+          [routerLink]="['/manage-campaign/view/' + i]"
+        >
+          {{ ele.name }}
+          <mat-icon>open_in_new</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+          sortActionDescription="Sort by Status"
+        >
+          Status
+        </th>
+        <td mat-cell *matCellDef="let ele">
+          <span class="status {{ ele.status }}">{{ ele.status }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ctr">
+        <th
+          mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+          sortActionDescription="Sort by CTR"
+        >
+          CTR
+        </th>
+        <td mat-cell class="ctr" *matCellDef="let ele">{{ ele.ctr }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="startDate">
+        <th
+          mat-header-cell
+          mat-sort-header
+          *matHeaderCellDef
+          sortActionDescription="Sort by Start Date"
+        >
+          Start Date
+        </th>
+        <td mat-cell *matCellDef="let ele">
+          {{ ele.startDate | date : "dd MMM, hh:mm a" }}
+          <span class="year">{{ ele.startDate | date : "yyyy" }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by Start Date"
+        >
+          Actions
+        </th>
+        <td mat-cell *matCellDef="let ele">
+          <button mat-stroked-button [matMenuTriggerFor]="menu">Action</button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item class="action-btns">
+              <p>Edit</p>
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-menu-item class="action-btns">
+              <p>Delete</p>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+    </table>
+    <div class="table-placeholder" *ngIf="campaignData.length == 0">
+      <h2>Nothing to show here</h2>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+<div class="header">
+  <h1>{{ title }}</h1>
+  <div *ngIf="campaignName" class="campaignName">
+    <span>{{ campaignName }}</span>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-select [value]="'admin'">
+        <mat-option value="admin">admin@mail.com</mat-option>
+        <mat-option value="myuser">myuser@mail.com</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

@@ -1,1 +1,82 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+  font-size: min(3vw, 14px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box !important;
+
+
+  &:not(.material-icons, .mat-icon) {
+    font-family: "Poppins", sans-serif !important;
+
+  }
+}
+
+
+body {
+  background-color: #80858b;
+
+  @media screen and (width<768px) {
+    height: 100vh;
+    height: 100svh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+button,
+a {
+  text-decoration: none;
+  font-weight: 500;
+  color: unset;
+  font-size: 1rem !important;
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+}
+
+
+
+::-webkit-scrollbar {
+  height: 0.75rem;
+  width: 0rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background-color: rgba(#4758b8, 0.8);
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(#c6cfdc, 0.5);
+  border-radius: 20px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.wrapper-container {
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
