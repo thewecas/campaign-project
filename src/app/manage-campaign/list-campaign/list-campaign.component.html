@@ -9,13 +9,7 @@
     Create Campaign
   </button>
   <div class="table_container">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      class="list-campaign"
-      *ngIf="campaignData.length != 0"
-    >
+    <table mat-table [dataSource]="dataSource" matSort class="list-campaign">
       <ng-container matColumnDef="id">
         <th
           mat-header-cell

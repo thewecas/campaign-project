@@ -24,6 +24,5 @@ export class CampaignService {
   saveNewCampaign(newCampaign: any) {
     this.campaignData.push(newCampaign);
     this.campaignDataObservable.next(this.campaignData);
-    console.log(this.campaignData);
   };
 }

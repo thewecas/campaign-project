@@ -72,6 +72,7 @@ export class CreateCampaignComponent {
   addLocation() {
     const control = new FormControl(this.value);
     (<FormArray>this.locationForm.get('locations')).push(control);
+    this.value = '';
   }
 
   getLocations() {

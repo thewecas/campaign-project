@@ -28,19 +28,22 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getAllCampaigns().subscribe(res => this.campaignData = res.map((ele: any) => {
-      return {
-        id: ele.id,
-        name: ele.name,
-        status: ele.status,
-        ctr: ele.ctr || 0,
-        startDate: ele.startDate
-      };
-    }) || []);
-    this.dataSource = new MatTableDataSource(this.campaignData);
+    this.service.getAllCampaigns().subscribe(res => {
+      this.campaignData = res.map((ele: any) => {
+        return {
+          id: ele.id,
+          name: ele.name,
+          status: ele.status,
+          ctr: ele.ctr || 0,
+          startDate: new Date(ele.startDate)
+        };
+      }) || [];
+      this.dataSource = new MatTableDataSource(this.campaignData);
+    });
   }
 
   ngAfterViewInit(): void {
+    // this.dataSource.data = this.campaignData;
     this.dataSource.sort = this.sort;
   };
 

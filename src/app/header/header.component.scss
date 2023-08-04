@@ -33,7 +33,7 @@
   }
 
   @media (width<600px) {
-    position: absolute;
+    position: fixed;
     top: 10px;
     z-index: 9999;
     left: 50px;
