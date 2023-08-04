@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'manage-campaign/create',
     loadComponent: () => import('./manage-campaign/create-campaign/create-campaign.component').then(m => m.CreateCampaignComponent)
+  },
+  {
+    path: 'manage-campaign/update/:index',
+    loadComponent: () => import('./manage-campaign/create-campaign/create-campaign.component').then(m => m.CreateCampaignComponent)
   }
 ];
 

@@ -109,10 +109,20 @@
         &:nth-child(2) {
           min-width: 20ch;
 
-          mat-icon {
-            font-size: 1rem;
-            line-height: 2.5;
+          .link-icon {
+            display: inline-block;
+            position: relative;
+
+            mat-icon {
+              line-height: 1;
+              position: absolute;
+              bottom: -10px;
+              font-size: 1rem;
+
+            }
           }
+
+
 
           &:hover:not(th) {
             cursor: pointer;

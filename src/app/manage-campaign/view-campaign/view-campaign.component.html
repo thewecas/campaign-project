@@ -17,18 +17,39 @@
         <td>Campaign Name</td>
         <td>{{ campaign.name }}</td>
       </tr>
+      <tr *ngIf="campaign.objective">
+        <td>Campaign Objective</td>
+        <td>{{ campaign.objective }}</td>
+      </tr>
+      <tr *ngIf="campaign.offerType">
+        <td>Category</td>
+        <td>{{ campaign.category }}</td>
+      </tr>
+      <tr *ngIf="campaign.offerType">
+        <td>Offer Type</td>
+        <td>{{ campaign.offerType }}</td>
+      </tr>
+      <tr *ngIf="campaign.locations">
+        <td>Locations</td>
+        <td>{{ campaign.locations }}</td>
+      </tr>
+      <tr *ngIf="campaign.radius">
+        <td>Radius</td>
+        <td>{{ campaign.radius }}</td>
+      </tr>
       <tr>
         <td>Status</td>
         <td>
-          <span class="status {{ campaign.status }}">{{
-            campaign.status
-          }}</span>
+          <span class="status {{ campaign.status }}">
+            {{ campaign.status }}
+          </span>
         </td>
       </tr>
       <tr>
         <td>CTR</td>
         <td class="ctr">{{ campaign.ctr || 0 }}</td>
       </tr>
+
       <tr>
         <td>Start Date</td>
         <td>
@@ -36,10 +57,27 @@
           <span class="year">{{ campaign.startDate | date : "yyyy" }}</span>
         </td>
       </tr>
+      <tr *ngIf="campaign.endDate">
+        <td>End Date</td>
+        <td>
+          {{ campaign.endDate | date : "d MMM, hh:mm a" }}
+          <span class="year">{{ campaign.endDate | date : "yyyy" }}</span>
+        </td>
+      </tr>
+      <tr *ngIf="campaign.comments">
+        <td>Comments</td>
+        <td>{{ campaign.comments }}</td>
+      </tr>
     </table>
   </div>
   <div class="btn-container">
     <button mat-flat-button color="warn">Delete</button>
-    <button mat-flat-button color="primary">Edit</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [routerLink]="['/manage-campaign/update/' + index]"
+    >
+      Edit
+    </button>
   </div>
 </div>

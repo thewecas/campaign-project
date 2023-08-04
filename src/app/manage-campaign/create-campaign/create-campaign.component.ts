@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule, StepperOrientation } from '@angular/material/stepper';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HeaderComponent } from 'src/app/header/header.component';
@@ -23,7 +23,7 @@ import { CampaignService } from '../campaign.service';
 @Component({
   selector: 'app-create-campaign',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule],
   templateUrl: './create-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -41,31 +41,48 @@ export class CreateCampaignComponent {
   scheduleForm!: FormGroup;
 
 
-  constructor(breakpointObserver: BreakpointObserver, private service: CampaignService, private route: Router) {
+  constructor(breakpointObserver: BreakpointObserver, private service: CampaignService, private route: Router, private activeRoute: ActivatedRoute) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
   }
 
+  index!: string | null;
   ngOnInit() {
+    const routerParam = this.activeRoute.snapshot.paramMap;
+    this.index = routerParam.get("index");
+    if (this.index != null) {
+      this.newCampaign = this.service.getExistingCampaign(this.index);
+      this.initializeForm();
+      this.newCampaign.locations?.forEach((loc: string) => {
+        (<FormArray>this.locationForm.get('locations')).push(new FormControl(loc));
+      });
+    }
+    else {
+      this.newCampaign = this.service.getNewCampaign();
+      this.initializeForm();
+    }
+  }
+
+
+  initializeForm() {
     this.detailsForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      objective: new FormControl('', Validators.required),
-      category: new FormControl(''),
-      offerType: new FormControl(''),
-      comments: new FormControl('')
+      name: new FormControl(this.newCampaign.name, Validators.required),
+      objective: new FormControl(this.newCampaign.objective, Validators.required),
+      category: new FormControl(this.newCampaign.category),
+      offerType: new FormControl(this.newCampaign.offerType),
+      comments: new FormControl(this.newCampaign.comments)
 
     });
     this.locationForm = new FormGroup({
       locations: new FormArray([], Validators.required),
-      radius: new FormControl('', Validators.required)
+      radius: new FormControl(this.newCampaign.radius, Validators.required)
     });
     this.audienceForm = new FormGroup({});
     this.scheduleForm = new FormGroup({
-      startDate: new FormControl('', Validators.required),
-      endDate: new FormControl('')
+      startDate: new FormControl(this.newCampaign.startDate, Validators.required),
+      endDate: new FormControl(this.newCampaign.endDate)
     });
-
   }
 
 
@@ -86,7 +103,7 @@ export class CreateCampaignComponent {
 
   summarizeNewCampaign() {
     this.newCampaign = {
-      id: this.service.getNewCampaignId(),
+      ...this.newCampaign,
       name: this.detailsForm.value.name,
       objective: this.detailsForm.value.objective,
       category: this.detailsForm.value.category || 'Category 1',
@@ -96,17 +113,17 @@ export class CreateCampaignComponent {
       radius: this.locationForm.value.radius,
       startDate: this.scheduleForm.value.startDate,
       endDate: this.scheduleForm.value.endDate,
-      crt: 0,
-      status: 'Draft'
     };
   }
 
 
 
   saveNewCampaign() {
-    this.service.saveNewCampaign(this.newCampaign);
+    if (this.index == null)
+      this.service.saveCampaignDetails(this.newCampaign);
+    else
+      this.service.saveCampaignDetails(this.newCampaign, Number(this.index));
     this.route.navigate(['/manage-campaign/list']);
   }
-
 
 }

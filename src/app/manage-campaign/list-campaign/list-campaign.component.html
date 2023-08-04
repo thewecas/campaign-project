@@ -36,7 +36,7 @@
           [routerLink]="['/manage-campaign/view/' + i]"
         >
           {{ ele.name }}
-          <mat-icon>open_in_new</mat-icon>
+          <div class="link-icon"><mat-icon>open_in_new</mat-icon></div>
         </td>
       </ng-container>
 
@@ -89,10 +89,14 @@
         >
           Actions
         </th>
-        <td mat-cell *matCellDef="let ele">
+        <td mat-cell *matCellDef="let ele; let i = index">
           <button mat-stroked-button [matMenuTriggerFor]="menu">Action</button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item class="action-btns">
+            <button
+              mat-menu-item
+              class="action-btns"
+              [routerLink]="['/manage-campaign/update/' + i]"
+            >
               <p>Edit</p>
               <mat-icon>edit</mat-icon>
             </button>

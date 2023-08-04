@@ -13,16 +13,36 @@ export class CampaignService {
     return this.campaignDataObservable.asObservable();
   };
 
-  getCampaign = (productIndex: String) => {
+  getExistingCampaign = (productIndex: String) => {
     return this.campaignData[Number(productIndex)];
+  };
+
+  getNewCampaign = () => {
+    return {
+      id: this.getNewCampaignId(),
+      name: '',
+      objective: '',
+      category: '',
+      offerType: '',
+      comments: '',
+      locations: [],
+      radius: '',
+      startDate: '',
+      endDate: '',
+      crt: 0,
+      status: 'Draft'
+    };
   };
 
   getNewCampaignId() {
     return Math.max(...this.campaignData.map(campaign => campaign.id), 10000) + 1;
   };
 
-  saveNewCampaign(newCampaign: any) {
-    this.campaignData.push(newCampaign);
+  saveCampaignDetails(newCampaign: any, index?: number) {
+    if (index == null || index == undefined)
+      this.campaignData.push(newCampaign);
+    else
+      this.campaignData[index] = newCampaign;
     this.campaignDataObservable.next(this.campaignData);
   };
 }

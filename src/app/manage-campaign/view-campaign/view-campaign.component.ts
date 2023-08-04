@@ -15,7 +15,7 @@ import { CampaignService } from '../campaign.service';
 })
 export class ViewCampaignComponent {
 
-  public productIndex: string = "";
+  public index: string = "";
   public campaign: any;
   title = 'Manage Campaign';
 
@@ -24,8 +24,8 @@ export class ViewCampaignComponent {
 
   ngOnInit(): void {
     const routerParam = this.route.snapshot.paramMap;
-    this.productIndex = String(routerParam.get('index'));
-    this.campaign = this.campaignService.getCampaign(this.productIndex);
+    this.index = String(routerParam.get('index'));
+    this.campaign = this.campaignService.getExistingCampaign(this.index);
   }
 }
 
