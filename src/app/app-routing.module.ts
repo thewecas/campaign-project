@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '', redirectTo: 'manage-campaign/list', pathMatch: 'full'
+  },
+  {
     path: 'manage-campaign/list',
     loadComponent: () => import('./manage-campaign/list-campaign/list-campaign.component').then(m => m.ListCampaignComponent)
   },
