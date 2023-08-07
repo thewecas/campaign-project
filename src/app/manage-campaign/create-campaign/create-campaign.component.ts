@@ -18,6 +18,7 @@ import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { HeaderComponent } from 'src/app/header/header.component';
 import * as audienceCategories from "../../../assets/data/audienceCategory.json";
 import { CampaignService } from '../campaign.service';
+import { ViewTemplateComponent } from '../view-template/view-template.component';
 
 
 
@@ -25,7 +26,7 @@ import { CampaignService } from '../campaign.service';
 @Component({
   selector: 'app-create-campaign',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule, ViewTemplateComponent],
   templateUrl: './create-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })

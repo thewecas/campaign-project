@@ -7,11 +7,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from 'src/app/header/header.component';
 import { DialogComponent } from "../../dialog/dialog.component";
 import { CampaignService } from '../campaign.service';
+import { ViewTemplateComponent } from '../view-template/view-template.component';
 
 @Component({
   selector: 'app-view-campaign',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, HeaderComponent, MatDialogModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, HeaderComponent, ViewTemplateComponent, MatDialogModule],
   templateUrl: './view-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })

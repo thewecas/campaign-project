@@ -309,63 +309,7 @@
   <!-- campaign summary section  -->
   <mat-step label="Summary">
     <ng-template matStepContent>
-      <div class="table_container">
-        <div class="img-container">
-          <img src="../../../assets/images/campaign.jpg" alt="" />
-        </div>
-        <table class="view-campaign">
-          <tr>
-            <td>Id</td>
-            <td>{{ newCampaign.id }}</td>
-          </tr>
-          <tr>
-            <td>Campaign Name</td>
-            <td>{{ newCampaign.name }}</td>
-          </tr>
-          <tr>
-            <td>Campaign Objective</td>
-            <td>{{ newCampaign.objective }}</td>
-          </tr>
-          <tr>
-            <td>Category</td>
-            <td>{{ newCampaign.category }}</td>
-          </tr>
-          <tr>
-            <td>Offer Type</td>
-            <td>{{ newCampaign.offerType }}</td>
-          </tr>
-          <tr>
-            <td>Locations</td>
-            <td>{{ newCampaign.locations }}</td>
-          </tr>
-          <tr>
-            <td>Radius</td>
-            <td>{{ newCampaign.radius }}</td>
-          </tr>
-          <tr>
-            <td>Start Date</td>
-            <td>
-              {{ newCampaign.startDate | date : "d MMM, hh:mm a" }}
-              <span class="year">{{
-                newCampaign.startDate | date : "yyyy"
-              }}</span>
-            </td>
-          </tr>
-          <tr *ngIf="newCampaign.endDate">
-            <td>End Date</td>
-            <td>
-              {{ newCampaign.endDate | date : "d MMM, hh:mm a" }}
-              <span class="year">{{
-                newCampaign.endDate | date : "yyyy"
-              }}</span>
-            </td>
-          </tr>
-          <tr *ngIf="newCampaign.comments">
-            <td>Comments</td>
-            <td>{{ newCampaign.comments }}</td>
-          </tr>
-        </table>
-      </div>
+      <app-view-template [campaign]="newCampaign"></app-view-template>
       <div class="btn-container">
         <button mat-raised-button matStepperPrevious>
           <span>
