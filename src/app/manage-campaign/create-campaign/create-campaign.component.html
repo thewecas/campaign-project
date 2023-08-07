@@ -166,97 +166,97 @@
   </mat-step>
 
   <!-- audience details step  -->
-  <mat-step label="Audience">
-    <ng-template matStepContent>
-      <form [formGroup]="locationForm">
-        <h2>Audience</h2>
-
-        <div class="col-9-3">
-          <mat-form-field appearance="outline">
-            <mat-label>Search</mat-label>
-            <input matInput />
-          </mat-form-field>
-
-          <button
-            mat-stroked-button
-            (click)="isDropDownVisible = !isDropDownVisible"
-          >
-            <span>Browse</span>
-          </button>
-        </div>
-        <div class="dropdown-container" [class.visible]="isDropDownVisible">
-          <div class="dropdown-section">
-            <h3 class="heading">Industry</h3>
-
-            <div class="category-container">
-              <ng-container *ngFor="let category of audienceCategories">
-                <div class="category">
-                  <div>
-                    <h3>{{ category.name }}</h3>
-                    <p class="categories-count">
-                      {{ category.subCategories.length }}
-                    </p>
-                  </div>
-
-                  <i class="nf nf-fa-angle_right"></i>
-
-                  <div class="sub-category-container">
-                    <ng-container
-                      *ngFor="let subCategory of category.subCategories"
-                    >
-                      <div class="category">
-                        <div>
-                          <h3>{{ subCategory.name }}</h3>
-                          <p class="categories-count">
-                            {{ subCategory.subCategories.length }}
-                          </p>
-                        </div>
-
-                        <i class="nf nf-fa-angle_right"></i>
-
-                        <div class="sub-category-option-container">
-                          <ng-container
-                            *ngFor="let option of subCategory.subCategories"
-                          >
-                            <div class="category">
-                              <input type="checkbox" />
-                              <label>{{ option.name }}</label>
-                              <span class="count">{{ option.count }}</span>
-                            </div>
-                          </ng-container>
-                        </div>
-                      </div>
-                    </ng-container>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-
-          <div class="dropdown-section">
-            <h3 class="heading">Category</h3>
-            <div class="category-container"></div>
-          </div>
-
-          <div class="dropdown-section">
-            <h3 class="heading">Application</h3>
-            <div class="category-container"></div>
-          </div>
-        </div>
-        <div class="btn-container">
-          <button mat-raised-button matStepperPrevious>
-            <span>
-              <mat-icon>arrow_back</mat-icon>
-              Back
-            </span>
-          </button>
-          <button mat-raised-button color="primary" matStepperNext>
-            <span>Next<mat-icon>arrow_forward</mat-icon></span>
-          </button>
-        </div>
-      </form>
-    </ng-template>
-  </mat-step>
+  <!-- <mat-step label="Audience"> -->
+  <!-- <ng-template matStepContent> -->
+  <!-- <form [formGroup]="locationForm"> -->
+  <!-- <h2>Audience</h2> -->
+  <!--  -->
+  <!-- <div class="col-9-3"> -->
+  <!-- <mat-form-field appearance="outline"> -->
+  <!-- <mat-label>Search</mat-label> -->
+  <!-- <input matInput /> -->
+  <!-- </mat-form-field> -->
+  <!--  -->
+  <!-- <button -->
+  <!-- mat-stroked-button -->
+  <!-- (click)="isDropDownVisible = !isDropDownVisible" -->
+  <!-- > -->
+  <!-- <span>Browse</span> -->
+  <!-- </button> -->
+  <!-- </div> -->
+  <!-- <div class="dropdown-container" [class.visible]="isDropDownVisible"> -->
+  <!-- <div class="dropdown-section"> -->
+  <!-- <h3 class="heading">Industry</h3> -->
+  <!--  -->
+  <!-- <div class="category-container"> -->
+  <!-- <ng-container *ngFor="let category of audienceCategories"> -->
+  <!-- <div class="category"> -->
+  <!-- <div> -->
+  <!-- <h3>{{ category.name }}</h3> -->
+  <!-- <p class="categories-count"> -->
+  <!-- {{ category.subCategories.length }} -->
+  <!-- </p> -->
+  <!-- </div> -->
+  <!--  -->
+  <!-- <i class="nf nf-fa-angle_right"></i> -->
+  <!--  -->
+  <!-- <div class="sub-category-container"> -->
+  <!-- <ng-container -->
+  <!-- *ngFor="let subCategory of category.subCategories" -->
+  <!-- > -->
+  <!-- <div class="category"> -->
+  <!-- <div> -->
+  <!-- <h3>{{ subCategory.name }}</h3> -->
+  <!-- <p class="categories-count"> -->
+  <!-- {{ subCategory.subCategories.length }} -->
+  <!-- </p> -->
+  <!-- </div> -->
+  <!--  -->
+  <!-- <i class="nf nf-fa-angle_right"></i> -->
+  <!--  -->
+  <!-- <div class="sub-category-option-container"> -->
+  <!-- <ng-container -->
+  <!-- *ngFor="let option of subCategory.subCategories" -->
+  <!-- > -->
+  <!-- <div class="category"> -->
+  <!-- <input type="checkbox" /> -->
+  <!-- <label>{{ option.name }}</label> -->
+  <!-- <span class="count">{{ option.count }}</span> -->
+  <!-- </div> -->
+  <!-- </ng-container> -->
+  <!-- </div> -->
+  <!-- </div> -->
+  <!-- </ng-container> -->
+  <!-- </div> -->
+  <!-- </div> -->
+  <!-- </ng-container> -->
+  <!-- </div> -->
+  <!-- </div> -->
+  <!--  -->
+  <!-- <div class="dropdown-section"> -->
+  <!-- <h3 class="heading">Category</h3> -->
+  <!-- <div class="category-container"></div> -->
+  <!-- </div> -->
+  <!--  -->
+  <!-- <div class="dropdown-section"> -->
+  <!-- <h3 class="heading">Application</h3> -->
+  <!-- <div class="category-container"></div> -->
+  <!-- </div> -->
+  <!-- </div> -->
+  <!-- <div class="btn-container"> -->
+  <!-- <button mat-raised-button matStepperPrevious> -->
+  <!-- <span> -->
+  <!-- <mat-icon>arrow_back</mat-icon> -->
+  <!-- Back -->
+  <!-- </span> -->
+  <!-- </button> -->
+  <!-- <button mat-raised-button color="primary" matStepperNext> -->
+  <!-- <span>Next<mat-icon>arrow_forward</mat-icon></span> -->
+  <!-- </button> -->
+  <!-- </div> -->
+  <!-- </form> -->
+  <!-- </ng-template> -->
+  <!-- </mat-step> -->
 
   <!-- campaign schedule step  -->
   <mat-step [stepControl]="scheduleForm" label="Campaign Schedule">
