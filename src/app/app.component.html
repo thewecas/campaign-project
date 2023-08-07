@@ -1,4 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
+  <!-- sidebar container  -->
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -36,6 +37,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
+    <!-- sidebar toggle button on mobile view -->
     <mat-toolbar color="primary">
       <button
         type="button"
@@ -48,6 +50,7 @@
       </button>
     </mat-toolbar>
 
+    <!--  wrapping router outlet in a container -->
     <div class="router-outlet">
       <router-outlet></router-outlet>
     </div>

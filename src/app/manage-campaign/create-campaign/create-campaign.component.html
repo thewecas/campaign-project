@@ -1,18 +1,21 @@
+<!-- Header component -->
 <app-header
   [title]="title"
   [campaignName]="detailsForm.value.name || 'New Campaign '"
 ></app-header>
 
+<!-- Material stepper  -->
 <mat-stepper
   [linear]="true"
   [orientation]="(stepperOrientation | async)!"
   #stepper
 >
-  <!-- campaign details section  -->
+  <!-- campaign details step  -->
   <mat-step [stepControl]="detailsForm" label="Campaign Details">
     <ng-template matStepContent>
       <form [formGroup]="detailsForm">
         <h2>Campaign Details</h2>
+
         <mat-form-field appearance="outline">
           <mat-label>Campaign Name</mat-label>
           <input
@@ -23,6 +26,7 @@
           />
           <mat-error>Campaign Name is <strong>required</strong></mat-error>
         </mat-form-field>
+
         <mat-form-field appearance="outline">
           <mat-label>Campaign Objective</mat-label>
           <input
@@ -33,6 +37,7 @@
           />
           <mat-error>Campaign Objective is <strong>required</strong></mat-error>
         </mat-form-field>
+
         <div class="col-6">
           <mat-form-field appearance="outline">
             <mat-label>Campaign Category (Optional)</mat-label>
@@ -42,6 +47,7 @@
               <mat-option value="category 3">Category 3</mat-option>
             </mat-select>
           </mat-form-field>
+
           <mat-form-field appearance="outline">
             <mat-label>Offer Type (Optional)</mat-label>
             <mat-select formControlName="offerType">
@@ -51,6 +57,7 @@
             </mat-select>
           </mat-form-field>
         </div>
+
         <mat-form-field appearance="outline">
           <mat-label>Additional Comments</mat-label>
           <textarea
@@ -59,6 +66,7 @@
             placeholder="Additional Comments"
           ></textarea>
         </mat-form-field>
+
         <div class="btn-container">
           <button mat-raised-button color="primary" matStepperNext>
             <span>Next<mat-icon>arrow_forward</mat-icon></span>
@@ -68,12 +76,11 @@
     </ng-template>
   </mat-step>
 
-  <!-- location details section  -->
+  <!-- location details step  -->
   <mat-step [stepControl]="locationForm" label="Location Details">
     <ng-template matStepContent>
       <form [formGroup]="locationForm">
         <h2>Location Details</h2>
-
         <div class="wrapper-container">
           <div class="map-container">
             <mat-form-field appearance="outline">
@@ -82,11 +89,11 @@
                 matInput
                 type="text"
                 placeholder="Search Location"
-                [(ngModel)]="value"
+                [(ngModel)]="locationValue"
                 [ngModelOptions]="{ standalone: true }"
               />
               <button
-                *ngIf="value"
+                *ngIf="locationValue"
                 matSuffix
                 mat-icon-button
                 (click)="addLocation()"
@@ -94,6 +101,7 @@
                 <mat-icon>add_location</mat-icon>
               </button>
             </mat-form-field>
+
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.160117212902!2d74.84101240179461!3d12.891481985242258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35b2c43c5594d%3A0xad33997edef04c61!2sPace%20Wisdom%20Solutions!5e1!3m2!1sen!2sin!4v1690218013197!5m2!1sen!2sin"
               allowfullscreen=""
@@ -124,12 +132,14 @@
                 </mat-form-field>
               </ng-container>
             </div>
+
             <div
               class="input-container-placeholder"
               *ngIf="getLocations().length == 0"
             >
               <h2>Please Add Location</h2>
             </div>
+
             <mat-form-field appearance="outline">
               <mat-label>Radius</mat-label>
               <mat-select formControlName="radius" required>
@@ -141,13 +151,12 @@
             </mat-form-field>
           </div>
         </div>
+
         <div class="btn-container">
           <button mat-raised-button matStepperPrevious>
-            <span>
-              <mat-icon>arrow_back</mat-icon>
-              Back
-            </span>
+            <span> <mat-icon>arrow_back</mat-icon>Back</span>
           </button>
+
           <button mat-raised-button color="primary" matStepperNext>
             <span>Next<mat-icon>arrow_forward</mat-icon></span>
           </button>
@@ -156,16 +165,18 @@
     </ng-template>
   </mat-step>
 
-  <!-- audience details section  -->
+  <!-- audience details step  -->
   <mat-step label="Audience">
     <ng-template matStepContent>
       <form [formGroup]="locationForm">
         <h2>Audience</h2>
+
         <div class="col-9-3">
           <mat-form-field appearance="outline">
             <mat-label>Search</mat-label>
             <input matInput />
           </mat-form-field>
+
           <button
             mat-stroked-button
             (click)="isDropDownVisible = !isDropDownVisible"
@@ -186,6 +197,7 @@
                       {{ category.subCategories.length }}
                     </p>
                   </div>
+
                   <i class="nf nf-fa-angle_right"></i>
 
                   <div class="sub-category-container">
@@ -199,6 +211,7 @@
                             {{ subCategory.subCategories.length }}
                           </p>
                         </div>
+
                         <i class="nf nf-fa-angle_right"></i>
 
                         <div class="sub-category-option-container">
@@ -245,7 +258,7 @@
     </ng-template>
   </mat-step>
 
-  <!-- campaign schedule section  -->
+  <!-- campaign schedule step  -->
   <mat-step [stepControl]="scheduleForm" label="Campaign Schedule">
     <ng-template matStepContent>
       <form [formGroup]="scheduleForm">
@@ -306,7 +319,7 @@
     </ng-template>
   </mat-step>
 
-  <!-- campaign summary section  -->
+  <!-- campaign summary step  -->
   <mat-step label="Summary">
     <ng-template matStepContent>
       <app-view-template [campaign]="newCampaign"></app-view-template>

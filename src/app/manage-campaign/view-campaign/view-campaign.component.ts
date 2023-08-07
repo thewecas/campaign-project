@@ -18,20 +18,29 @@ import { ViewTemplateComponent } from '../view-template/view-template.component'
 })
 export class ViewCampaignComponent {
 
-  public index: string = "";
-  public campaign: any;
-  title = 'Manage Campaign';
-  dialogRef!: MatDialogRef<DialogComponent>;
+  public index!: number; /* index of the campaign object being viewed  */
+  public campaign: any; /* object to store the campaign data */
+  title = 'Manage Campaign'; /* title to be displayed on the header */
+  dialogRef!: MatDialogRef<DialogComponent>;  /* Reference to dialog component */
 
   constructor(private route: ActivatedRoute, private service: CampaignService, public matDialog: MatDialog, public router: Router) {
   }
 
+  /**
+   * get the index of the campaign object from the route
+   * get the campaign object from the service using index
+   */
   ngOnInit(): void {
     const routerParam = this.route.snapshot.paramMap;
-    this.index = String(routerParam.get('index'));
+    this.index = Number(routerParam.get('index'));
     this.campaign = this.service.getExistingCampaign(this.index);
   }
 
+
+  /**
+   * open confirmation dialog to delete the campaign data
+   * When the emitted values from the component is true, the campaign data will be removed
+   */
   openDialog() {
     this.dialogRef = this.matDialog.open(DialogComponent, {
       data: {
@@ -40,7 +49,6 @@ export class ViewCampaignComponent {
         campaignData: this.campaign
       }
     });
-
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
       if (flag)
         this.service.removeCampaign(Number(this.index));

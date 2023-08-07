@@ -35,133 +35,129 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+  }
+}
 
+table {
+  margin-block: 2rem;
+  border-collapse: collapse;
 
+  th,
+  td {
+    padding-block: 1.5rem;
+    border-bottom: 1px solid gray;
+    font-weight: 500;
+
+    &:not(td) {
+      font-weight: 600;
+    }
   }
 
-  table {
-    margin-block: 2rem;
-    border-collapse: collapse;
+  .status {
+    min-width: 6rem;
+    max-width: 7rem;
+    display: inline-block;
+    text-align: center;
+    padding: 0.4rem 0.5rem;
+    border-radius: 2rem;
+    font-size: 0.95rem;
 
-    th,
-    td {
-      padding-block: 1.5rem;
-      border-bottom: 1px solid gray;
-      font-weight: 500;
-
-      &:not(td) {
-        font-weight: 600;
-      }
+    &.Completed {
+      background-color: rgba(187, 255, 186, 0.8);
+      color: rgb(28, 141, 5);
     }
 
-    &.list-campaign {
-
-      th,
-      td {
-        &:nth-child(1) {
-          width: 10%;
-          min-width: 8ch;
-        }
-
-        &:nth-child(2) {
-          min-width: 20ch;
-
-          .link-icon {
-            display: inline-block;
-            position: relative;
-
-            mat-icon {
-              line-height: 1;
-              position: absolute;
-              bottom: -10px;
-              font-size: 1rem;
-
-            }
-          }
-
-
-
-          &:hover:not(th) {
-            cursor: pointer;
-            text-decoration: underline;
-            text-decoration-color: black;
-            text-underline-offset: 5px;
-          }
-        }
-
-        &:nth-child(3) {
-          width: 15%;
-          min-width: 15ch;
-
-          &:not(td) {
-            padding-inline: 1.5rem;
-          }
-        }
-
-        &:nth-child(4) {
-          width: 10%;
-          min-width: 8ch;
-        }
-
-        &:nth-child(5) {
-          width: 25%;
-          min-width: 18ch;
-        }
-
-        &:nth-child(6) {
-          width: 7%;
-          min-width: 12ch;
-        }
-      }
-
+    &.Draft {
+      background-color: rgb(193, 193, 193, 0.8);
+      color: rgb(88, 88, 89);
     }
 
-    .status {
-      min-width: 6rem;
-      max-width: 7rem;
-      display: inline-block;
-      text-align: center;
-      padding: 0.4rem 0.5rem;
-      border-radius: 2rem;
-      font-size: 0.95rem;
+    &.Scheduled {
+      background-color: rgba(186, 196, 255, 0.8);
+      color: rgb(5, 19, 141);
+    }
+  }
 
-      &.Completed {
-        background-color: rgba(187, 255, 186, 0.8);
-        color: rgb(28, 141, 5);
-      }
+  .ctr {
+    &:after {
+      content: '%';
+    }
+  }
 
-      &.Draft {
-        background-color: rgb(193, 193, 193, 0.8);
-        color: rgb(88, 88, 89);
-      }
+  .year {
+    font-weight: 500;
+    color: gray;
 
-      &.Scheduled {
-        background-color: rgba(186, 196, 255, 0.8);
-        color: rgb(5, 19, 141);
-      }
+    &::before {
+      content: '(';
     }
 
-    .ctr {
-      &:after {
-        content: '%';
-      }
-    }
-
-    .year {
-      font-weight: 500;
-      color: gray;
-
-      &::before {
-        content: '(';
-      }
-
-      &::after {
-        content: ')';
-      }
+    &::after {
+      content: ')';
     }
   }
 }
 
+
+.list-campaign {
+
+  th,
+  td {
+    &:nth-child(1) {
+      width: 10%;
+      min-width: 8ch;
+    }
+
+    &:nth-child(2) {
+      min-width: 20ch;
+
+      .link-icon {
+        display: inline-block;
+        position: relative;
+
+        mat-icon {
+          line-height: 1;
+          position: absolute;
+          bottom: -10px;
+          font-size: 1rem;
+
+        }
+      }
+
+      &:hover:not(th) {
+        cursor: pointer;
+        text-decoration: underline;
+        text-decoration-color: black;
+        text-underline-offset: 5px;
+      }
+    }
+
+    &:nth-child(3) {
+      width: 15%;
+      min-width: 15ch;
+
+      &:not(td) {
+        padding-inline: 1.5rem;
+      }
+    }
+
+    &:nth-child(4) {
+      width: 10%;
+      min-width: 8ch;
+    }
+
+    &:nth-child(5) {
+      width: 25%;
+      min-width: 18ch;
+    }
+
+    &:nth-child(6) {
+      width: 7%;
+      min-width: 12ch;
+    }
+  }
+
+}
 
 .view-campaign {
   height: min-content;
@@ -211,7 +207,6 @@
 
 
 mat-stepper {
-
   form {
     background-color: rgba(#c6cfdc, 0.2);
     padding: 1rem;
@@ -232,10 +227,7 @@ mat-stepper {
     >* {
       display: block;
       width: 50%;
-
     }
-
-
   }
 
   @media (width<768px) {
@@ -385,8 +377,6 @@ button {
   margin-block: 1rem;
   display: none;
   height: max-content;
-
-
 
   @media (width<768px) {
     .category {

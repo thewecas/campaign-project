@@ -4,11 +4,12 @@
   font-size: min(3vw, 14px);
 }
 
+
+// reset the styling
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box !important;
-
 
   &:not(.material-icons, .mat-icon) {
     font-family: "Poppins", sans-serif !important;
@@ -16,8 +17,12 @@
   }
 }
 
+html {
+  height: 100%;
+}
 
 body {
+  height: 100%;
 
   @media (width<768px) {
     min-height: 100vh;
@@ -26,12 +31,13 @@ body {
     overflow-x: hidden;
   }
 
+  //hide the scrollbar
   &::-webkit-scrollbar {
     display: none;
   }
 }
 
-
+// default styling for buttons and anchor tags
 button,
 a {
   text-decoration: none;
@@ -44,6 +50,8 @@ a {
   }
 }
 
+
+//change font styling of heading tags
 h1,
 h2,
 h3,
@@ -53,7 +61,7 @@ h4 {
 }
 
 
-
+//custom scrollbar styling
 ::-webkit-scrollbar {
   height: 0.75rem;
   width: 0rem;
@@ -69,10 +77,7 @@ h4 {
   border-radius: 20px;
 }
 
-html,
-body {
-  height: 100%;
-}
+
 
 .wrapper-container {
   .mat-mdc-form-field-subscript-wrapper {
@@ -80,6 +85,8 @@ body {
   }
 }
 
+
+//default styling for button container
 .button-container {
   display: flex;
   gap: 1rem;

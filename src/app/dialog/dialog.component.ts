@@ -26,6 +26,8 @@ import { MatInputModule } from '@angular/material/input';
 export class DialogComponent {
 
   public campaignData: any;
+
+  /*  Get data passed to the component & store it in campaign data variable  */
   constructor(public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.campaignData = data.campaignData;
@@ -33,6 +35,7 @@ export class DialogComponent {
 
   @Output() emitter = new EventEmitter<Boolean>();
 
+  /* Emit the boolean value on button press */
   sendSignal(flag: boolean) {
     this.emitter.emit(flag);
   }

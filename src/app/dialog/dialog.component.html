@@ -1,4 +1,6 @@
 <h1 mat-dialog-title>{{ data.heading }}</h1>
+
+<!-- body of dialog  -->
 <div mat-dialog-content class="dialog-data">
   <p>{{ data.body }}</p>
   <div *ngIf="campaignData">
@@ -6,6 +8,7 @@
     <p class="data">Campaign Name : {{ campaignData.name }}</p>
   </div>
 </div>
+
 <div mat-dialog-actions class="button-container">
   <button mat-button mat-dialog-close (click)="sendSignal(false)">
     Cancel

@@ -20,40 +20,35 @@ import { CampaignService } from '../campaign.service';
 })
 export class ListCampaignComponent implements AfterViewInit, OnInit {
 
-  public campaignData !: any[];
+  public campaignData !: any[];  /* array to store all campaign data */
+  title = 'Manage Campaign';  /* title to display on the header */
+  dialogRef!: MatDialogRef<DialogComponent>; /*  reference to dialog component */
   public dataSource!: MatTableDataSource<any>;
-  title = 'Manage Campaign';
-  dialogRef!: MatDialogRef<DialogComponent>;
 
-  columnsToDisplay = ['id', 'name', 'status', 'ctr', 'startDate', 'actions'];
+  columnsToDisplay = ['id', 'name', 'status', 'ctr', 'startDate', 'actions'];  /* array of table heading  */
 
   constructor(private service: CampaignService, private matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.service.getAllCampaigns().subscribe(res => {
-      this.campaignData = res.map((ele: any) => {
-        return {
-          id: ele.id,
-          name: ele.name,
-          status: ele.status,
-          ctr: ele.ctr || 0,
-          startDate: new Date(ele.startDate)
-        };
-      }) || [];
+      this.campaignData = res;
       this.dataSource = new MatTableDataSource(this.campaignData);
     });
   }
 
+  /* sort the table  */
   ngAfterViewInit(): void {
-    // this.dataSource.data = this.campaignData;
     this.dataSource.sort = this.sort;
   };
 
-
   @ViewChild(MatSort) sort!: MatSort;
 
-
+  /**
+   * Open the dialog to show delete confirmation dialog
+   * pass the necessary data to display
+   * @param index index of the campaign object whose action button in pressed
+   */
   openDialog(index: number) {
     this.dialogRef = this.matDialog.open(DialogComponent, {
       data: {
@@ -63,6 +58,10 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
       }
     });
 
+    /**
+     * subscribe to the Event emitter instance of the dialog
+     * if flag is true then remove the campaign object
+     */
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
       if (flag)
         this.service.removeCampaign(Number(index));

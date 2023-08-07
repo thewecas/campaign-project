@@ -14,6 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+
+  /*  get the data from parent using @Input directives  */
   @Input() title!: string;
   @Input() campaignName!: string;
 }

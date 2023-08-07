@@ -6,17 +6,40 @@ import * as campaignList from '../../assets/data/campaign.json';
   providedIn: 'root'
 })
 export class CampaignService {
+
+  /**
+   * fetch, parse and store the data from campaign.json file
+   */
   public campaignData: any[] = JSON.parse(JSON.stringify(campaignList)).data;
+
+
+  /**
+   * creating a observable to asynchronously update the campaignData on changes
+   */
   public campaignDataObservable = new BehaviorSubject<any>(this.campaignData);
 
+
+  /**
+   * returns the campaignData observable
+   * asynchronously emits the updated data with next()
+   */
   getAllCampaigns() {
     return this.campaignDataObservable.asObservable();
   };
 
-  getExistingCampaign = (productIndex: String) => {
-    return this.campaignData[Number(productIndex)];
+
+  /**
+   * @param productIndex 
+   * @returns campaign object at the given index from campaignData array
+   */
+  getExistingCampaign = (productIndex: number) => {
+    return this.campaignData[productIndex];
   };
 
+
+  /**
+   * @returns an empty campaign object with default values
+   */
   getNewCampaign = () => {
     return {
       id: this.getNewCampaignId(),
@@ -34,10 +57,20 @@ export class CampaignService {
     };
   };
 
+
+  /**
+   * @returns new id for the campaign
+   */
   getNewCampaignId() {
     return Math.max(...this.campaignData.map(campaign => campaign.id), 10000) + 1;
   };
 
+
+  /**
+   * Update the data of existing campaign
+   * @param newCampaign object containing the campaign details
+   * @param index index of the object in the campaignData array
+   */
   saveCampaignDetails(newCampaign: any, index?: number) {
     if (index == null || index == undefined)
       this.campaignData.push(newCampaign);
@@ -46,6 +79,11 @@ export class CampaignService {
     this.campaignDataObservable.next(this.campaignData);
   };
 
+
+  /**
+   * Delete the existing campaign object from the campaignData array
+   * @param index index of the campaign object in the array 
+   */
   removeCampaign(index: number) {
     this.campaignData.splice(index, 1);
     this.campaignDataObservable.next(this.campaignData);

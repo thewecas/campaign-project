@@ -1,9 +1,12 @@
 <div class="header">
   <h1>{{ title }}</h1>
+
+  <!-- Conditionally display the campaignName field when in the create new campaign page -->
   <div *ngIf="campaignName" class="campaignName">
     <span>{{ campaignName }}</span>
   </div>
 
+  <!-- dropdown to select the user  -->
   <div>
     <mat-form-field>
       <mat-select [value]="'admin'">

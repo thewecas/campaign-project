@@ -1,60 +1,55 @@
 .sidenav-container {
   height: 100%;
-}
 
-.sidenav {
-  width: 200px;
-}
-
-.sidenav .mat-toolbar {
-  background: inherit;
-}
-
-.navigation {
-  padding-inline: 1.5rem;
-}
-
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.mat-sidenav {
-  * {
-    line-height: 1.5 !important;
+  .sidenav {
+    width: 200px;
   }
-}
 
-.active-link {
-  background-color: rgba(#4758b8, 0.8);
-}
+  .mat-sidenav {
+    * {
+      line-height: 1.5 !important;
+    }
 
-@media (width<600px) {
-  .mat-toolbar-single-row {
-    padding: 0 !important;
+    .mat-toolbar {
+      background: inherit !important;
+    }
+
+    .navigation {
+      padding-inline: 1.5rem;
+    }
   }
-}
 
-
-mat-toolbar {
-  display: none;
+  mat-toolbar {
+    display: none;
+  }
 
   @media (width<600px) {
-    display: flex;
+    .mat-toolbar-single-row {
+      padding: 0 !important;
+    }
+
+    mat-toolbar {
+      display: flex;
+    }
+  }
+
+  .mat-sidenav-content {
+    background-color: rgb(229, 229, 229);
+
+    .mat-toolbar.mat-primary {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    @media (width<768px) {
+      background-color: #fff;
+
+    }
+
   }
 }
 
-
-
-mat-sidenav-content {
-  background-color: rgb(229, 229, 229);
-
-  @media (width<768px) {
-    background-color: #fff;
-
-  }
-}
 
 .router-outlet {
   width: min(100%, 1024px);

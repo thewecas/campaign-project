@@ -9,5 +9,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['../campaign.style.scss']
 })
 export class ViewTemplateComponent {
+
+  /* Get the campaign data from parent using @Input directive */
   @Input() campaign: any;
 }
