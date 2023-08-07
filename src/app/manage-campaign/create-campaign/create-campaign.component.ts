@@ -70,8 +70,7 @@ export class CreateCampaignComponent {
     const routerParam = this.activeRoute.snapshot.paramMap;
     this.index = Number(routerParam.get("index"));
 
-    if (this.index != null) {
-
+    if (this.index != null && !isNaN(this.index)) {
       /* fetch the data of existing campaign object */
       this.newCampaign = this.service.getExistingCampaign(this.index);
       this.initializeForm();

@@ -26,14 +26,6 @@ const routes: Routes = [
   },
   {
     /**
-     * route to create new campaign
-     * lazy load the component 
-     */
-    path: 'manage-campaign/create',
-    loadComponent: () => import('./manage-campaign/create-campaign/create-campaign.component').then(m => m.CreateCampaignComponent)
-  },
-  {
-    /**
      * route to update the existing campaign data, reuses the createCampaignProject
      * lazy load the component
      */
