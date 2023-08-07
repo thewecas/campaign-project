@@ -29,11 +29,11 @@ export class CampaignService {
 
 
   /**
-   * @param productIndex 
+   * @param index of the campaign object in the array
    * @returns campaign object at the given index from campaignData array
    */
-  getExistingCampaign = (productIndex: number) => {
-    return this.campaignData[productIndex];
+  getExistingCampaign = (index: number) => {
+    return this.campaignData[index];
   };
 
 
@@ -69,7 +69,7 @@ export class CampaignService {
   /**
    * Update the data of existing campaign
    * @param newCampaign object containing the campaign details
-   * @param index index of the object in the campaignData array
+   * @param index of the object in the campaignData array
    */
   saveCampaignDetails(newCampaign: any, index?: number) {
     if (index == null || index == undefined)
@@ -82,7 +82,7 @@ export class CampaignService {
 
   /**
    * Delete the existing campaign object from the campaignData array
-   * @param index index of the campaign object in the array 
+   * @param index of the campaign object in the array 
    */
   removeCampaign(index: number) {
     this.campaignData.splice(index, 1);

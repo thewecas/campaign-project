@@ -10,12 +10,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule, StepperOrientation } from '@angular/material/stepper';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { HeaderComponent } from 'src/app/header/header.component';
+import { SnakBarComponent } from 'src/app/snak-bar/snak-bar.component';
 import * as audienceCategories from "../../../assets/data/audienceCategory.json";
 import { CampaignService } from '../campaign.service';
 import { ViewTemplateComponent } from '../view-template/view-template.component';
@@ -23,10 +25,12 @@ import { ViewTemplateComponent } from '../view-template/view-template.component'
 
 
 
+
+
 @Component({
   selector: 'app-create-campaign',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule, ViewTemplateComponent],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule, ViewTemplateComponent, MatSnackBarModule],
   templateUrl: './create-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -48,7 +52,7 @@ export class CreateCampaignComponent {
   scheduleForm!: FormGroup;
 
 
-  constructor(breakpointObserver: BreakpointObserver, private service: CampaignService, private route: Router, private activeRoute: ActivatedRoute, public matDialog: MatDialog) {
+  constructor(breakpointObserver: BreakpointObserver, private service: CampaignService, private route: Router, private activeRoute: ActivatedRoute, public matDialog: MatDialog, private _snackBar: MatSnackBar) {
 
     /* change the orientation based on the with of the viewport */
     this.stepperOrientation = breakpointObserver
@@ -63,7 +67,6 @@ export class CreateCampaignComponent {
      * When index is null,  this form will be used to create a new campaign object
      * When index is a number,  this form will be used to update the existing campaign object
      */
-
     const routerParam = this.activeRoute.snapshot.paramMap;
     this.index = Number(routerParam.get("index"));
 
@@ -168,7 +171,6 @@ export class CreateCampaignComponent {
       this.service.saveCampaignDetails(this.newCampaign);
     else
       this.service.saveCampaignDetails(this.newCampaign, Number(this.index));
-    this.route.navigate(['/manage-campaign/list']);
   }
 
 
@@ -190,12 +192,24 @@ export class CreateCampaignComponent {
      * close the dialog
      */
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
-      if (flag)
+      if (flag) {
         this.saveNewCampaign();
+        this.openSnackBar();
+        this.route.navigate(['/manage-campaign/list']);
+      }
       this.dialogRef.close();
     });
 
+  }
 
+  /**
+   * display the snakbar
+   */
+  openSnackBar() {
+    this._snackBar.openFromComponent(SnakBarComponent, {
+      duration: 3000,
+      data: this.index ? "Updated the details successfully" : "Saved the Campaign data successfully"
+    });
   }
 
 }

@@ -4,17 +4,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { HeaderComponent } from 'src/app/header/header.component';
+import { SnakBarComponent } from 'src/app/snak-bar/snak-bar.component';
 import { CampaignService } from '../campaign.service';
 
 @Component({
   selector: 'app-list-campaign',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatTableModule, MatIconModule, MatButtonModule, MatDialogModule, MatSortModule, MatMenuModule, HeaderComponent],
+  imports: [CommonModule, RouterModule, MatTableModule, MatIconModule, MatButtonModule, MatSnackBarModule, MatDialogModule, MatSortModule, MatMenuModule, HeaderComponent],
   templateUrl: './list-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -27,7 +29,7 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
 
   columnsToDisplay = ['id', 'name', 'status', 'ctr', 'startDate', 'actions'];  /* array of table heading  */
 
-  constructor(private service: CampaignService, private matDialog: MatDialog) {
+  constructor(private service: CampaignService, private matDialog: MatDialog, private _snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -47,12 +49,12 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
   /**
    * Open the dialog to show delete confirmation dialog
    * pass the necessary data to display
-   * @param index index of the campaign object whose action button in pressed
+   * @param index of the campaign object whose action button in pressed
    */
   openDialog(index: number) {
     this.dialogRef = this.matDialog.open(DialogComponent, {
       data: {
-        heading: "Are you sure ?",
+        heading: "Delete Campaign ?",
         body: "Campaign with following details will be Deleted permanently",
         campaignData: this.campaignData[index]
       }
@@ -63,11 +65,23 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
      * if flag is true then remove the campaign object
      */
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
-      if (flag)
+      if (flag) {
         this.service.removeCampaign(Number(index));
+        this.openSnackBar();
+      }
       this.dialogRef.close();
 
     });
 
+  }
+
+  /**
+   * display the snakbar
+   */
+  openSnackBar() {
+    this._snackBar.openFromComponent(SnakBarComponent, {
+      duration: 3000,
+      data: "Deleted successfully"
+    });
   }
 }

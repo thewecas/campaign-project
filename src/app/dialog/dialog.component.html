@@ -1,4 +1,11 @@
-<h1 mat-dialog-title>{{ data.heading }}</h1>
+<h1
+  mat-dialog-title
+  [ngStyle]="{
+    color: campaignData == null ? 'blue' : 'red'
+  }"
+>
+  {{ data.heading }}
+</h1>
 
 <!-- body of dialog  -->
 <div mat-dialog-content class="dialog-data">

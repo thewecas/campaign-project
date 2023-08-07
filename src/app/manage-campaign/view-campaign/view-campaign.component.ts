@@ -3,8 +3,10 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from 'src/app/header/header.component';
+import { SnakBarComponent } from 'src/app/snak-bar/snak-bar.component';
 import { DialogComponent } from "../../dialog/dialog.component";
 import { CampaignService } from '../campaign.service';
 import { ViewTemplateComponent } from '../view-template/view-template.component';
@@ -12,7 +14,7 @@ import { ViewTemplateComponent } from '../view-template/view-template.component'
 @Component({
   selector: 'app-view-campaign',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, RouterModule, HeaderComponent, ViewTemplateComponent, MatDialogModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatSnackBarModule, RouterModule, HeaderComponent, ViewTemplateComponent, MatDialogModule],
   templateUrl: './view-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -23,7 +25,7 @@ export class ViewCampaignComponent {
   title = 'Manage Campaign'; /* title to be displayed on the header */
   dialogRef!: MatDialogRef<DialogComponent>;  /* Reference to dialog component */
 
-  constructor(private route: ActivatedRoute, private service: CampaignService, public matDialog: MatDialog, public router: Router) {
+  constructor(private route: ActivatedRoute, private service: CampaignService, public matDialog: MatDialog, public router: Router, private _snackBar: MatSnackBar) {
   }
 
   /**
@@ -44,20 +46,30 @@ export class ViewCampaignComponent {
   openDialog() {
     this.dialogRef = this.matDialog.open(DialogComponent, {
       data: {
-        heading: "Are you sure ?",
+        heading: "Delete Campaign ?",
         body: "Campaign with following details will be Deleted permanently",
         campaignData: this.campaign
       }
     });
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
-      if (flag)
+      if (flag) {
         this.service.removeCampaign(Number(this.index));
+        this.openSnackBar();
+        this.router.navigate(['/manage-campaign/list']);
+      }
       this.dialogRef.close();
-      this.router.navigate(['/manage-campaign/list']);
-
     });
 
+  }
 
+  /**
+   * display the snakbar
+   */
+  openSnackBar() {
+    this._snackBar.openFromComponent(SnakBarComponent, {
+      duration: 3000,
+      data: "Deleted successfully"
+    });
   }
 }
 
