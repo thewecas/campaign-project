@@ -49,10 +49,19 @@ mat-toolbar {
 
 mat-sidenav-content {
   background-color: rgb(229, 229, 229);
+
+  @media (width<768px) {
+    background-color: #fff;
+
+  }
 }
 
 .router-outlet {
   width: min(100%, 1024px);
   margin-inline: auto;
   padding: 1rem;
+
+  @media (width<768px) {
+    padding: 0;
+  }
 }

@@ -18,11 +18,10 @@
 
 
 body {
-  background-color: #80858b;
 
-  @media screen and (width<768px) {
-    height: 100vh;
-    height: 100svh;
+  @media (width<768px) {
+    min-height: 100vh;
+    min-height: 100svh;
     overflow-y: scroll;
     overflow-x: hidden;
   }
@@ -79,4 +78,10 @@ body {
   .mat-mdc-form-field-subscript-wrapper {
     display: none;
   }
+}
+
+.button-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end !important;
 }

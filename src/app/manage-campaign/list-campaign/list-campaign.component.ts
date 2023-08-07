@@ -1,18 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
+import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { HeaderComponent } from 'src/app/header/header.component';
 import { CampaignService } from '../campaign.service';
 
 @Component({
   selector: 'app-list-campaign',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatMenuModule, HeaderComponent],
+  imports: [CommonModule, RouterModule, MatTableModule, MatIconModule, MatButtonModule, MatDialogModule, MatSortModule, MatMenuModule, HeaderComponent],
   templateUrl: './list-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -21,10 +23,11 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
   public campaignData !: any[];
   public dataSource!: MatTableDataSource<any>;
   title = 'Manage Campaign';
+  dialogRef!: MatDialogRef<DialogComponent>;
 
   columnsToDisplay = ['id', 'name', 'status', 'ctr', 'startDate', 'actions'];
 
-  constructor(private service: CampaignService) {
+  constructor(private service: CampaignService, private matDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -50,4 +53,22 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatSort) sort!: MatSort;
 
+
+  openDialog(index: number) {
+    this.dialogRef = this.matDialog.open(DialogComponent, {
+      data: {
+        heading: "Are you sure ?",
+        body: "Campaign with following details will be Deleted permanently",
+        campaignData: this.campaignData[index]
+      }
+    });
+
+    this.dialogRef.componentInstance.emitter.subscribe(flag => {
+      if (flag)
+        this.service.removeCampaign(Number(index));
+      this.dialogRef.close();
+
+    });
+
+  }
 }

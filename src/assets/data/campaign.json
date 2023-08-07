@@ -1,46 +1,130 @@
 {
   "data": [
     {
-      "id": "345678",
-      "name": "Food, John Boo",
+      "id": 345267,
+      "name": "Summer Sale",
+      "objective": "Increase sales during summer",
+      "category": "Retail",
+      "offerType": "Discount",
+      "comments": "Promote new products and seasonal deals.",
+      "locations": [
+        "New York",
+        "Los Angeles",
+        "Chicago"
+      ],
       "status": "Completed",
-      "ctr": 2.5,
-      "startDate": "2021-01-15T08:59:00"
+      "ctr": 1.2,
+      "radius": "500M",
+      "startDate": "2023-06-01",
+      "endDate": "2023-08-31"
     },
     {
-      "id": "43563",
-      "name": "Food, Michael Robinson",
+      "id": 345268,
+      "name": "Healthy Living",
+      "objective": "Promote health and wellness",
+      "category": "Healthcare",
+      "offerType": "Free Samples",
+      "comments": "Encourage customers to try our new health products.",
+      "locations": [
+        "San Francisco",
+        "Seattle",
+        "Austin"
+      ],
       "status": "Completed",
-      "ctr": 3.1,
-      "startDate": "2021-12-12T08:56:00"
+      "ctr": 4.6,
+      "radius": "100M",
+      "startDate": "2023-09-15",
+      "endDate": "2023-10-15"
     },
     {
-      "id": "234334",
-      "name": "Food,Tesco, Alexander Robinson",
+      "id": 345268,
+      "name": "Tech Expo",
+      "objective": "Showcase latest technology",
+      "category": "Technology",
+      "offerType": "Event",
+      "comments": "Invite industry experts and tech enthusiasts.",
+      "locations": [
+        "London",
+        "Berlin",
+        "Paris"
+      ],
       "status": "Draft",
-      "ctr": 2.7,
-      "startDate": "2021-01-16T08:56:00"
+      "ctr": 3.9,
+      "radius": "1KM",
+      "startDate": "2023-11-20",
+      "endDate": "2023-11-22"
     },
     {
-      "id": "045322",
-      "name": "Makro, Jenifer Pinsker",
-      "status": "Draft",
-      "ctr": 1.5,
-      "startDate": "2021-01-29T08:56:00"
-    },
-    {
-      "id": "342223",
-      "name": "Coffee, Bob robinson",
+      "id": 345269,
+      "name": "Charity Drive",
+      "objective": "Raise funds for a cause",
+      "category": "Social",
+      "offerType": "Donation",
+      "comments": "Support local charities and community projects.",
+      "locations": [
+        "Toronto",
+        "Vancouver",
+        "Montreal"
+      ],
       "status": "Scheduled",
-      "ctr": 1.8,
-      "startDate": "2022-01-01T08:56:00"
+      "ctr": 3.3,
+      "radius": "100M",
+      "startDate": "2023-07-10",
+      "endDate": "2023-07-31"
     },
     {
-      "id": "234234",
-      "name": "Tesco, Michael Robinson",
+      "id": 345270,
+      "name": "Adventure Tours",
+      "objective": "Promote travel packages",
+      "category": "Travel",
+      "offerType": "Discount",
+      "comments": "Highlight exotic destinations and unique experiences.",
+      "locations": [
+        "Sydney",
+        "Bali",
+        "Tokyo"
+      ],
+      "status": "Draft",
+      "ctr": 4.2,
+      "radius": "500M",
+      "startDate": "2023-05-01",
+      "endDate": "2023-12-31"
+    },
+    {
+      "id": 345271,
+      "name": "Back to School",
+      "objective": "Boost back-to-school sales",
+      "category": "Retail",
+      "offerType": "Special Deal",
+      "comments": "Target parents and students with school supplies.",
+      "locations": [
+        "Houston",
+        "Dallas",
+        "Miami"
+      ],
+      "status": "Scheduled",
+      "ctr": 4.2,
+      "radius": "100M",
+      "startDate": "2023-08-10",
+      "endDate": "2023-09-10"
+    },
+    {
+      "id": 345272,
+      "name": "Fitness Challenge",
+      "objective": "Promote fitness memberships",
+      "category": "Health & Fitness",
+      "offerType": "Free Trial",
+      "comments": "Encourage people to start their fitness journey.",
+      "locations": [
+        "Chicago",
+        "Denver",
+        "Seattle"
+      ],
       "status": "Completed",
-      "ctr": 3.4,
-      "startDate": "2021-02-20T08:56:00"
+      "ctr": 2.9,
+      "radius": "100M",
+      "startDate": "2023-10-01",
+      "endDate": "2023-11-30"
     }
   ]
 }

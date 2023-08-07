@@ -5,6 +5,7 @@ import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Va
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +14,7 @@ import { MatStepperModule, StepperOrientation } from '@angular/material/stepper'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { HeaderComponent } from 'src/app/header/header.component';
 import * as audienceCategories from "../../../assets/data/audienceCategory.json";
 import { CampaignService } from '../campaign.service';
@@ -23,7 +25,7 @@ import { CampaignService } from '../campaign.service';
 @Component({
   selector: 'app-create-campaign',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule],
   templateUrl: './create-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -34,6 +36,8 @@ export class CreateCampaignComponent {
   isDropDownVisible = false;
   public audienceCategories = JSON.parse(JSON.stringify(audienceCategories)).categoryData;
   title = 'Campaign';
+  dialogRef!: MatDialogRef<DialogComponent>;
+
 
   detailsForm!: FormGroup;
   locationForm!: FormGroup;
@@ -41,7 +45,7 @@ export class CreateCampaignComponent {
   scheduleForm!: FormGroup;
 
 
-  constructor(breakpointObserver: BreakpointObserver, private service: CampaignService, private route: Router, private activeRoute: ActivatedRoute) {
+  constructor(breakpointObserver: BreakpointObserver, private service: CampaignService, private route: Router, private activeRoute: ActivatedRoute, public matDialog: MatDialog) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
       .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
@@ -124,6 +128,25 @@ export class CreateCampaignComponent {
     else
       this.service.saveCampaignDetails(this.newCampaign, Number(this.index));
     this.route.navigate(['/manage-campaign/list']);
+  }
+
+
+  openDialog() {
+    this.dialogRef = this.matDialog.open(DialogComponent, {
+      data: {
+        heading: "Submit Campaign Details ",
+        body: "Please check all the details provided are correct before Submitting",
+        campaignData: null
+      }
+    });
+
+    this.dialogRef.componentInstance.emitter.subscribe(flag => {
+      if (flag)
+        this.saveNewCampaign();
+      this.dialogRef.close();
+    });
+
+
   }
 
 }

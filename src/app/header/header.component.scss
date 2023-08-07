@@ -4,6 +4,7 @@
   gap: 1.5rem;
   align-items: center;
   margin-bottom: 1rem;
+  padding-inline: 0.5rem;
 
   .campaignName {
     padding: 0.5rem 1rem;
@@ -22,6 +23,12 @@
     margin-bottom: 1rem;
   }
 
+  .campaignName {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   div {
     &:last-child {
       margin-left: auto;
@@ -33,10 +40,11 @@
   }
 
   @media (width<600px) {
-    position: fixed;
-    top: 10px;
-    z-index: 9999;
-    left: 50px;
+    position: sticky;
+    top: 0.75rem;
+    z-index: 999;
+    margin: -5rem 0 0 3rem;
+    width: auto;
     color: white
   }
 }

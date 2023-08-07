@@ -45,4 +45,9 @@ export class CampaignService {
       this.campaignData[index] = newCampaign;
     this.campaignDataObservable.next(this.campaignData);
   };
+
+  removeCampaign(index: number) {
+    this.campaignData.splice(index, 1);
+    this.campaignDataObservable.next(this.campaignData);
+  }
 }
