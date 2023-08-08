@@ -66,6 +66,20 @@ export class CampaignService {
     return Math.max(...this.campaignData.map(campaign => campaign.id), 10000) + 1;
   };
 
+  /**
+    * Status is decided on following criteria
+    * If starting date is in future then status will be `Scheduled`
+    * If end date is in past then status will be `Completed`
+    * If starting date is not set then status will be `Draft`
+    * @param startDate is string of starting date
+    * @param endDate is string of end date
+    */
+  getStatus(startDate: string, endDate: string) {
+    const now = new Date().getTime();
+    const start = new Date(startDate).getTime();
+    const end = new Date(endDate).getTime() || new Date().getTime() + 1;
+    return start < now && end < now ? 'Completed' : start < now && end > now ? 'In Progress' : start > now && endDate > startDate ? 'Scheduled' : 'Draft';
+  }
 
   /**
    * Update the data of existing campaign
@@ -75,11 +89,8 @@ export class CampaignService {
   saveCampaignDetails(newCampaign: any, index: number = -1) {
     if (index < 0)
       this.campaignData.push(newCampaign);
-    else {
+    else
       this.campaignData[index] = newCampaign;
-      console.log("saved");
-
-    }
     this.campaignDataObservable.next(this.campaignData);
   };
 
