@@ -24,7 +24,19 @@
             placeholder="Campaign Name"
             required
           />
-          <mat-error>Campaign Name is <strong>required</strong></mat-error>
+          <mat-error
+            *ngIf="
+              detailsForm.controls['name'].errors?.hasOwnProperty('required')
+            "
+            >Campaign Name is <strong>required</strong></mat-error
+          >
+          <mat-error
+            *ngIf="
+              detailsForm.controls['name'].errors?.hasOwnProperty('pattern')
+            "
+            >Campaign Name cannot have
+            <strong>leading spaces</strong></mat-error
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -35,7 +47,23 @@
             placeholder="Campaign Objective"
             required
           />
-          <mat-error>Campaign Objective is <strong>required</strong></mat-error>
+          <mat-error
+            *ngIf="
+              detailsForm.controls['objective'].errors?.hasOwnProperty(
+                'required'
+              )
+            "
+            >Campaign Objective is <strong>required</strong></mat-error
+          >
+          <mat-error
+            *ngIf="
+              detailsForm.controls['objective'].errors?.hasOwnProperty(
+                'pattern'
+              )
+            "
+            >Campaign Object cannot have
+            <strong>leading spaces</strong></mat-error
+          >
         </mat-form-field>
 
         <div class="col-6">
@@ -65,10 +93,21 @@
             matInput
             placeholder="Additional Comments"
           ></textarea>
+          <mat-error
+            *ngIf="
+              detailsForm.controls['comments'].errors?.hasOwnProperty('pattern')
+            "
+            >Comments cannot have <strong>leading spaces</strong></mat-error
+          >
         </mat-form-field>
 
         <div class="btn-container">
-          <button mat-raised-button color="primary" matStepperNext>
+          <button
+            mat-raised-button
+            color="primary"
+            matStepperNext
+            (click)="log()"
+          >
             <span>Next<mat-icon>arrow_forward</mat-icon></span>
           </button>
         </div>
@@ -90,16 +129,22 @@
                 type="text"
                 placeholder="Search Location"
                 [(ngModel)]="locationValue"
+                pattern="^[a-zA-Z0-9]+.*"
+                #locationInput
                 [ngModelOptions]="{ standalone: true }"
               />
               <button
                 *ngIf="locationValue"
                 matSuffix
                 mat-icon-button
+                [disabled]="locationInput.classList.contains('ng-invalid')"
                 (click)="addLocation()"
               >
                 <mat-icon>add_location</mat-icon>
               </button>
+              <mat-error *ngIf="locationInput.classList.contains('ng-invalid')"
+                >Location cannot be empty</mat-error
+              >
             </mat-form-field>
 
             <iframe

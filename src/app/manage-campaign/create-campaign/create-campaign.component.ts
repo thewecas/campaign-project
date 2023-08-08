@@ -29,7 +29,7 @@ import { ViewTemplateComponent } from '../view-template/view-template.component'
 @Component({
   selector: 'app-create-campaign',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule, ViewTemplateComponent, MatSnackBarModule, MatCheckboxModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, FormsModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule, ViewTemplateComponent, MatSnackBarModule, MatCheckboxModule],
   templateUrl: './create-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -93,11 +93,11 @@ export class CreateCampaignComponent {
   initializeForm() {
     /* populate the details form with newCampaign data  */
     this.detailsForm = new FormGroup({
-      name: new FormControl(this.newCampaign.name, Validators.required),
-      objective: new FormControl(this.newCampaign.objective, Validators.required),
+      name: new FormControl(this.newCampaign.name, [Validators.required, Validators.pattern('[a-zA-Z0-9]+.*'), Validators.maxLength(40)]),
+      objective: new FormControl(this.newCampaign.objective, [Validators.required, Validators.pattern('[a-zA-Z0-9]+.*'), Validators.maxLength(60)]),
       category: new FormControl(this.newCampaign.category),
       offerType: new FormControl(this.newCampaign.offerType),
-      comments: new FormControl(this.newCampaign.comments)
+      comments: new FormControl(this.newCampaign.comments, Validators.pattern('[a-zA-Z0-9]+.*'))
 
     });
 
@@ -120,9 +120,13 @@ export class CreateCampaignComponent {
    * pushes the formControl to location FormArray
    */
   addLocation() {
-    const control = new FormControl(this.locationValue);
+    const control = new FormControl(this.locationValue, [Validators.required, Validators.pattern('[a-zA-Z0-9]+.*')]);
     (<FormArray>this.locationForm.get('locations')).push(control);
     this.locationValue = '';
+  }
+
+  log() {
+    console.log(this.detailsForm);
   }
 
   /**
