@@ -63,7 +63,7 @@
         >
           CTR
         </th>
-        <td mat-cell class="ctr" *matCellDef="let ele">{{ ele.ctr }}</td>
+        <td mat-cell class="ctr" *matCellDef="let ele">{{ ele.ctr || 0 }}</td>
       </ng-container>
 
       <ng-container matColumnDef="startDate">

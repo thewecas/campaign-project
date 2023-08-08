@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -25,12 +26,10 @@ import { ViewTemplateComponent } from '../view-template/view-template.component'
 
 
 
-
-
 @Component({
   selector: 'app-create-campaign',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule, ViewTemplateComponent, MatSnackBarModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatIconModule, MatStepperModule, MatInputModule, FormsModule, MatButtonModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, HeaderComponent, RouterModule, MatDialogModule, ViewTemplateComponent, MatSnackBarModule, MatCheckboxModule],
   templateUrl: './create-campaign.component.html',
   styleUrls: ['../campaign.style.scss']
 })
@@ -43,7 +42,8 @@ export class CreateCampaignComponent {
   public audienceCategories = JSON.parse(JSON.stringify(audienceCategories)).categoryData;  /*  data to display in the audience dropdown */
   dialogRef!: MatDialogRef<DialogComponent>; /*  reference of dialog */
   index!: number | null; /* variable to store the index of existing object  */
-
+  isDraft: boolean = false; /* variable to store status of draft checkbox */
+  status!: string;
 
   /* forms to store the campaign data */
   detailsForm!: FormGroup;
@@ -64,13 +64,13 @@ export class CreateCampaignComponent {
 
     /**
      * Get the index of existing object
-     * When index is null,  this form will be used to create a new campaign object
-     * When index is a number,  this form will be used to update the existing campaign object
+     * When index is -1,  this form will be used to create a new campaign object
+     * When index is a non negative number,  this form will be used to update the existing campaign object
      */
     const routerParam = this.activeRoute.snapshot.paramMap;
-    this.index = Number(routerParam.get("index"));
+    this.index = Number(routerParam.get("index") || -1);
 
-    if (this.index != null && !isNaN(this.index)) {
+    if (this.index >= 0) {
       /* fetch the data of existing campaign object */
       this.newCampaign = this.service.getExistingCampaign(this.index);
       this.initializeForm();
@@ -144,6 +144,18 @@ export class CreateCampaignComponent {
    * Assigns the values from the forms to the newCampaign object
    */
   summarizeNewCampaign() {
+
+    /**
+    * Status is decided on following criteria
+    * If starting date is in future then status will be `Scheduled`
+    * If end date is in past then status will be `Completed`
+    * If starting date is not set then status will be `Draft`
+    */
+    const now = new Date().getTime();
+    const startDate = new Date(this.scheduleForm.value.startDate).getTime();
+    const endDate = new Date(this.scheduleForm.value.endDate).getTime() || new Date().getTime() + 1;
+    this.status = startDate < now && endDate < now ? 'Completed' : startDate < now && endDate > now ? 'In Progress' : startDate > now && endDate > startDate ? 'Scheduled' : 'Draft';
+
     this.newCampaign = {
       ...this.newCampaign,
       name: this.detailsForm.value.name,
@@ -153,11 +165,22 @@ export class CreateCampaignComponent {
       comments: this.detailsForm.value.comments || 'No Comments',
       locations: this.locationForm.value.locations,
       radius: this.locationForm.value.radius,
+      status: this.newCampaign.status == 'Draft' ? 'Draft' : this.status,
       startDate: this.scheduleForm.value.startDate,
       endDate: this.scheduleForm.value.endDate,
     };
+
+    this.isDraft = this.newCampaign.status == 'Draft' ? true : false;
   }
 
+
+  toggleDraftStatus() {
+    this.isDraft = !this.isDraft;
+    this.newCampaign = {
+      ...this.newCampaign,
+      status: this.isDraft ? 'Draft' : this.status
+    };
+  }
 
 
   /**
@@ -166,10 +189,7 @@ export class CreateCampaignComponent {
    * when index is a number, existing data is updated
    */
   saveNewCampaign() {
-    if (this.index == null)
-      this.service.saveCampaignDetails(this.newCampaign);
-    else
-      this.service.saveCampaignDetails(this.newCampaign, Number(this.index));
+    this.service.saveCampaignDetails(this.newCampaign, Number(this.index));
   }
 
 
@@ -211,4 +231,8 @@ export class CreateCampaignComponent {
     });
   }
 
+
+
 }
+
+

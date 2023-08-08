@@ -32,7 +32,7 @@
     &:last-child {
       margin-left: auto;
 
-      @media (width<768px) {
+      @media (width<900px) {
         display: none
       }
     }

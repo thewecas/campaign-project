@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-// import * as campaignList from '../../assets/data/campaign.json';
+import * as campaignList from '../../assets/data/campaign.json';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,8 @@ export class CampaignService {
   /**
    * fetch, parse and store the data from campaign.json file
    */
-  // public campaignData: any[] = JSON.parse(JSON.stringify(campaignList)).data;
-  public campaignData: any[] = [];
+  public campaignData: any[] = JSON.parse(JSON.stringify(campaignList)).data;
+  // public campaignData: any[] = [];
 
 
   /**
@@ -72,11 +72,14 @@ export class CampaignService {
    * @param newCampaign object containing the campaign details
    * @param index of the object in the campaignData array
    */
-  saveCampaignDetails(newCampaign: any, index?: number) {
-    if (isNaN(index || NaN) || index == undefined)
+  saveCampaignDetails(newCampaign: any, index: number = -1) {
+    if (index < 0)
       this.campaignData.push(newCampaign);
-    else
+    else {
       this.campaignData[index] = newCampaign;
+      console.log("saved");
+
+    }
     this.campaignDataObservable.next(this.campaignData);
   };
 

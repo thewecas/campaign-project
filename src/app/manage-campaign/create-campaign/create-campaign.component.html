@@ -289,6 +289,7 @@
               formControlName="endDate"
               placeholder="MM/DD/YYY"
               [matDatepicker]="picker2"
+              min="new Date()"
             />
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle
@@ -298,6 +299,10 @@
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
         </div>
+
+        <p class="notice">
+          Please ensure that End Date is greater than the Start Date *
+        </p>
 
         <div class="btn-container">
           <button mat-raised-button matStepperPrevious>
@@ -322,7 +327,16 @@
   <!-- campaign summary step  -->
   <mat-step label="Summary">
     <ng-template matStepContent>
-      <app-view-template [campaign]="newCampaign"></app-view-template>
+      <app-view-template [campaign]="newCampaign"> </app-view-template>
+      <div class="draft-checkbox">
+        <input
+          type="checkbox"
+          [checked]="isDraft"
+          (change)="toggleDraftStatus()"
+        />
+        <label for="">Save as Draft</label>
+      </div>
+
       <div class="btn-container">
         <button mat-raised-button matStepperPrevious>
           <span>

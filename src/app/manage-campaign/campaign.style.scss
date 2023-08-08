@@ -54,8 +54,8 @@ table {
   }
 
   .status {
-    min-width: 6rem;
-    max-width: 7rem;
+    min-width: 7rem;
+    max-width: 8rem;
     display: inline-block;
     text-align: center;
     padding: 0.4rem 0.5rem;
@@ -75,6 +75,11 @@ table {
     &.Scheduled {
       background-color: rgba(186, 196, 255, 0.8);
       color: rgb(5, 19, 141);
+    }
+
+    &.In.Progress {
+      background-color: rgba(253, 255, 186, 0.8);
+      color: rgb(130, 141, 5);
     }
   }
 
@@ -201,9 +206,28 @@ table {
   }
 }
 
+.draft-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+
+  input[type="checkbox"] {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+}
+
+.notice {
+  font-weight: 500;
+  color: rgb(179, 46, 46);
+}
+
 .action-btns {
   justify-content: flex-start;
 }
+
 
 
 mat-stepper {

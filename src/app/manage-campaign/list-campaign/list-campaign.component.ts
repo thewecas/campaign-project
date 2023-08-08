@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DialogComponent } from 'src/app/dialog/dialog.component';
 import { HeaderComponent } from 'src/app/header/header.component';
 import { SnakBarComponent } from 'src/app/snak-bar/snak-bar.component';
@@ -26,6 +27,8 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
   title = 'Manage Campaign';  /* title to display on the header */
   dialogRef!: MatDialogRef<DialogComponent>; /*  reference to dialog component */
   public dataSource!: MatTableDataSource<any>;
+  campaignSubscription!: Subscription;
+
 
   columnsToDisplay = ['id', 'name', 'status', 'ctr', 'startDate', 'actions'];  /* array of table heading  */
 
@@ -33,7 +36,7 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getAllCampaigns().subscribe(res => {
+    this.campaignSubscription = this.service.getAllCampaigns().subscribe(res => {
       this.campaignData = res;
       this.dataSource = new MatTableDataSource(this.campaignData);
     });
@@ -84,4 +87,6 @@ export class ListCampaignComponent implements AfterViewInit, OnInit {
       data: "Deleted successfully"
     });
   }
+
+
 }
