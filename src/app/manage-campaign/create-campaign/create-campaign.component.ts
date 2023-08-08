@@ -68,7 +68,7 @@ export class CreateCampaignComponent {
      * When index is a non negative number,  this form will be used to update the existing campaign object
      */
     const routerParam = this.activeRoute.snapshot.paramMap;
-    this.index = Number(routerParam.get("index") || -1);
+    this.index = Number(routerParam.get("index"));
 
     if (this.index >= 0) {
       /* fetch the data of existing campaign object */
@@ -156,6 +156,8 @@ export class CreateCampaignComponent {
     const endDate = new Date(this.scheduleForm.value.endDate).getTime() || new Date().getTime() + 1;
     this.status = startDate < now && endDate < now ? 'Completed' : startDate < now && endDate > now ? 'In Progress' : startDate > now && endDate > startDate ? 'Scheduled' : 'Draft';
 
+    this.isDraft = this.newCampaign.status == 'Draft' ? true : false;
+
     this.newCampaign = {
       ...this.newCampaign,
       name: this.detailsForm.value.name,
@@ -165,12 +167,12 @@ export class CreateCampaignComponent {
       comments: this.detailsForm.value.comments || 'No Comments',
       locations: this.locationForm.value.locations,
       radius: this.locationForm.value.radius,
-      status: this.newCampaign.status == 'Draft' ? 'Draft' : this.status,
+      // status: this.isDraft ? 'Draft' : this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate),
+      status: (this.index < 0 && !this.isDraft) || (this.index >= 0 && !this.isDraft) ? this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate) : 'Draft',
       startDate: this.scheduleForm.value.startDate,
       endDate: this.scheduleForm.value.endDate,
     };
 
-    this.isDraft = this.newCampaign.status == 'Draft' ? true : false;
   }
 
 
@@ -178,7 +180,7 @@ export class CreateCampaignComponent {
     this.isDraft = !this.isDraft;
     this.newCampaign = {
       ...this.newCampaign,
-      status: this.isDraft ? 'Draft' : this.status
+      status: this.isDraft ? 'Draft' : this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate)
     };
   }
 
@@ -189,7 +191,10 @@ export class CreateCampaignComponent {
    * when index is a number, existing data is updated
    */
   saveNewCampaign() {
-    this.service.saveCampaignDetails(this.newCampaign, Number(this.index));
+    if (this.index >= 0)
+      this.service.saveCampaignDetails(this.newCampaign, this.index);
+    else
+      this.service.saveCampaignDetails(this.newCampaign);
   }
 
 
