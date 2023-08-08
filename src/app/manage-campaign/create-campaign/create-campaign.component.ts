@@ -69,6 +69,8 @@ export class CreateCampaignComponent {
      */
     const routerParam = this.activeRoute.snapshot.paramMap;
     this.index = Number(routerParam.get("index"));
+    this.index = isNaN(this.index) ? -1 : this.index;
+
 
     if (this.index >= 0) {
       /* fetch the data of existing campaign object */
@@ -89,7 +91,6 @@ export class CreateCampaignComponent {
 
 
   initializeForm() {
-
     /* populate the details form with newCampaign data  */
     this.detailsForm = new FormGroup({
       name: new FormControl(this.newCampaign.name, Validators.required),
@@ -157,6 +158,7 @@ export class CreateCampaignComponent {
     this.status = startDate < now && endDate < now ? 'Completed' : startDate < now && endDate > now ? 'In Progress' : startDate > now && endDate > startDate ? 'Scheduled' : 'Draft';
 
     this.isDraft = this.newCampaign.status == 'Draft' ? true : false;
+
 
     this.newCampaign = {
       ...this.newCampaign,

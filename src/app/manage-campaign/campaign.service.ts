@@ -7,21 +7,10 @@ import * as campaignList from '../../assets/data/campaign.json';
 })
 export class CampaignService {
 
-  identifyStatus() {
-    this.campaignData = this.campaignData.map(campaign => {
-      return { ...campaign, status: this.getStatus(campaign.startDate, campaign.endDate) };
-    });
-  }
-
   /**
    * fetch, parse and store the data from campaign.json file
    */
   public campaignData: any[] = JSON.parse(JSON.stringify(campaignList)).data;
-
-
-
-  // public campaignData: any[] = [];
-
 
   /**
    * creating a observable to asynchronously update the campaignData on changes
@@ -34,11 +23,6 @@ export class CampaignService {
    * asynchronously emits the updated data with next()
    */
   getAllCampaigns() {
-    console.log("before -> ", this.campaignData);
-
-    this.identifyStatus();
-    console.log("after -> ", this.campaignData);
-
     return this.campaignDataObservable.asObservable();
   };
 
@@ -92,7 +76,7 @@ export class CampaignService {
     const now = new Date().getTime();
     const start = new Date(startDate).getTime() || new Date().getTime();
     const end = new Date(endDate).getTime() || new Date().getTime() + 1;
-    return start <= now && end <= now ? 'Completed' : start <= now && end > now ? 'In Progress' : start > now && end >= start ? 'Scheduled' : 'Draft';
+    return start > now ? 'Scheduled' : start <= now && end > now ? 'In Progress' : end < now ? 'Completed' : 'Draft';
   }
 
   /**
@@ -101,8 +85,6 @@ export class CampaignService {
    * @param index of the object in the campaignData array
    */
   saveCampaignDetails(newCampaign: any, index: number = -1) {
-    console.log("index -> ", index);
-
     if (index < 0)
       this.campaignData.push(newCampaign);
     else
