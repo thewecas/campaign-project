@@ -19,4 +19,5 @@ export class AppComponent {
       map(result => result.matches),
       shareReplay()
     );
+
 }
