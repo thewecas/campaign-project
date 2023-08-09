@@ -61,7 +61,6 @@ export class CreateCampaignComponent {
   }
 
   ngOnInit() {
-
     /**
      * Get the index of existing object
      * When index is -1,  this form will be used to create a new campaign object
@@ -159,7 +158,8 @@ export class CreateCampaignComponent {
     const now = new Date().getTime();
     const startDate = new Date(this.scheduleForm.value.startDate).getTime();
     const endDate = new Date(this.scheduleForm.value.endDate).getTime() || new Date().getTime() + 1;
-    this.status = startDate < now && endDate < now ? 'Completed' : startDate < now && endDate > now ? 'In Progress' : startDate > now && endDate > startDate ? 'Scheduled' : 'Draft';
+    this.status = startDate < now && endDate < now ?
+      'Completed' : startDate < now && endDate > now ? 'In Progress' : startDate > now && endDate > startDate ? 'Scheduled' : 'Draft';
 
     this.isDraft = this.newCampaign.status == 'Draft' ? true : false;
 
