@@ -38,16 +38,6 @@ export class ListCampaignComponent implements OnInit {
 
   ngOnInit(): void {
     this.campaignSubscription = this.service.getAllCampaigns().subscribe(res => {
-      // if (JSON.stringify(res) == JSON.stringify({})) {
-      //   console.log("calling getData from Database");
-
-      //   this.service.getAllCampaigns();
-      //   this.isFetching = false;
-      // }
-      // else {
-      //   this.isFetching=false
-      // }
-
 
       this.campaignData = Object.values(res);
       this.dataSource = new MatTableDataSource(this.campaignData);
