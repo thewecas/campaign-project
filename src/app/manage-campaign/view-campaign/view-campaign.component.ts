@@ -5,9 +5,9 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HeaderComponent } from 'src/app/header/header.component';
-import { SnakBarComponent } from 'src/app/snak-bar/snak-bar.component';
-import { DialogComponent } from "../../dialog/dialog.component";
+import { DialogComponent } from "src/app/shared/dialog/dialog.component";
+import { HeaderComponent } from 'src/app/shared/header/header.component';
+import { SnakBarComponent } from 'src/app/shared/snak-bar/snak-bar.component';
 import { CampaignService } from '../campaign.service';
 import { ViewTemplateComponent } from '../view-template/view-template.component';
 
@@ -20,23 +20,27 @@ import { ViewTemplateComponent } from '../view-template/view-template.component'
 })
 export class ViewCampaignComponent {
 
-  public index!: number; /* index of the campaign object being viewed  */
+  public id!: number; /* index of the campaign object being viewed  */
   public campaign: any; /* object to store the campaign data */
-  title = 'Manage Campaign'; /* title to be displayed on the header */
+  title: string = 'Manage Campaign'; /* title to be displayed on the header */
   dialogRef!: MatDialogRef<DialogComponent>;  /* Reference to dialog component */
 
   constructor(private route: ActivatedRoute, private service: CampaignService, public matDialog: MatDialog, public router: Router, private _snackBar: MatSnackBar) {
   }
 
   /**
-   * get the index of the campaign object from the route
+   * get the id of the campaign object from the route
    * get the campaign object from the service using index
    */
   ngOnInit(): void {
     const routerParam = this.route.snapshot.paramMap;
-    this.index = Number(routerParam.get('index'));
-    this.campaign = this.service.getExistingCampaign(this.index);
-  }
+    this.id = Number(routerParam.get('id'));
+
+    if (!!this.id)
+      this.campaign = this.service.getExistingCampaign(this.id);
+  };
+
+
 
 
   /**
@@ -53,9 +57,15 @@ export class ViewCampaignComponent {
     });
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
       if (flag) {
-        this.service.removeCampaign(Number(this.index));
-        this.openSnackBar();
-        this.router.navigate(['/manage-campaign/list']);
+        this.service.removeCampaign(this.id).subscribe({
+          next: (res) => {
+            this.openSnackBar();
+            this.service.getDataFromDatabase();
+            this.router.navigate(['/manage-campaign/list']);
+          },
+          error: (err) => console.error(err.message),
+        });
+
       }
       this.dialogRef.close();
     });

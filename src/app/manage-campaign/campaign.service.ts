@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import * as campaignList from '../../assets/data/campaign.json';
+import { BehaviorSubject, tap } from 'rxjs';
+import { Campaign } from './campaign.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,31 +9,60 @@ import * as campaignList from '../../assets/data/campaign.json';
 export class CampaignService {
 
   /**
-   * fetch, parse and store the data from campaign.json file
+   * create a variable to store the id of recently created campaign 
    */
-  public campaignData: any[] = JSON.parse(JSON.stringify(campaignList)).data;
+  recentId: number = 1000;
+
+  constructor(private http: HttpClient) {
+    this.getDataFromDatabase();
+
+  }
+
+  /**
+   * create an object to store the campaign data
+   */
+  public campaignData: { [id: number]: Campaign; } = {};
 
   /**
    * creating a observable to asynchronously update the campaignData on changes
    */
-  public campaignDataObservable = new BehaviorSubject<any>(this.campaignData);
+  public campaignData$ = new BehaviorSubject<any>(this.campaignData);
 
 
   /**
+   * Fetches the data from database
+   * store the data in the local variable 
+   * call the next() method of the campaignData$ 
+   */
+  getDataFromDatabase() {
+    this.http
+      .get<{ [id: number]: Campaign; }>('https://campaign-project-71c7e-default-rtdb.firebaseio.com/campaign.json')
+      .pipe(tap(responseData => {
+        for (const campaign of Object.values(responseData || {})) {
+          this.recentId = Math.max(this.recentId, Number(campaign.id));
+        }
+      })).subscribe({
+        next: (res) => {
+          this.campaignData = res;
+          this.campaignData$.next(this.campaignData);
+        }
+      });
+  }
+
+  /**
    * returns the campaignData observable
-   * asynchronously emits the updated data with next()
    */
   getAllCampaigns() {
-    return this.campaignDataObservable.asObservable();
+    return this.campaignData$.asObservable();
   };
 
 
   /**
-   * @param index of the campaign object in the array
-   * @returns campaign object at the given index from campaignData array
+   * @param id of the campaign object 
+   * @returns campaign object at the given id from campaignData 
    */
-  getExistingCampaign = (index: number) => {
-    return this.campaignData[index];
+  getExistingCampaign = (id: number) => {
+    return this.campaignData[id];
   };
 
 
@@ -41,7 +71,7 @@ export class CampaignService {
    */
   getNewCampaign = () => {
     return {
-      id: this.getNewCampaignId(),
+      id: this.recentId + 1,
       name: '',
       objective: '',
       category: '',
@@ -58,15 +88,9 @@ export class CampaignService {
 
 
   /**
-   * @returns new id for the campaign
-   */
-  getNewCampaignId() {
-    return Math.max(...this.campaignData.map(campaign => campaign.id), 10000) + 1;
-  };
-
-  /**
     * Status is decided on following criteria
     * If starting date is in future then status will be `Scheduled`
+    * If Starting date is in the past & End data is in future then status will be `In Progress`
     * If end date is in past then status will be `Completed`
     * If starting date is not set then status will be `Draft`
     * @param startDate is string of starting date
@@ -80,25 +104,19 @@ export class CampaignService {
   }
 
   /**
-   * Update the data of existing campaign
+   * Update the data of existing campaign or Put a new Campaign 
    * @param newCampaign object containing the campaign details
-   * @param index of the object in the campaignData array
    */
-  saveCampaignDetails(newCampaign: any, index: number = -1) {
-    if (index < 0)
-      this.campaignData.push(newCampaign);
-    else
-      this.campaignData[index] = newCampaign;
-    this.campaignDataObservable.next(this.campaignData);
+  saveCampaignDetails(newCampaign: Campaign) {
+    return this.http.put(`https://campaign-project-71c7e-default-rtdb.firebaseio.com/campaign/${newCampaign.id}.json`, newCampaign);
   };
 
 
   /**
-   * Delete the existing campaign object from the campaignData array
-   * @param index of the campaign object in the array 
+   * Delete the existing campaign object from the campaignData 
+   * @param id of the campaign object in the campaignData  
    */
-  removeCampaign(index: number) {
-    this.campaignData.splice(index, 1);
-    this.campaignDataObservable.next(this.campaignData);
+  removeCampaign(id: number) {
+    return this.http.delete(`https://campaign-project-71c7e-default-rtdb.firebaseio.com/campaign/${id}.json`);
   }
 }

@@ -16,9 +16,9 @@ import { MatStepperModule, StepperOrientation } from '@angular/material/stepper'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DialogComponent } from 'src/app/dialog/dialog.component';
-import { HeaderComponent } from 'src/app/header/header.component';
-import { SnakBarComponent } from 'src/app/snak-bar/snak-bar.component';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import { HeaderComponent } from 'src/app/shared/header/header.component';
+import { SnakBarComponent } from 'src/app/shared/snak-bar/snak-bar.component';
 import * as audienceCategories from "../../../assets/data/audienceCategory.json";
 import { CampaignService } from '../campaign.service';
 import { ViewTemplateComponent } from '../view-template/view-template.component';
@@ -41,7 +41,7 @@ export class CreateCampaignComponent {
   isDropDownVisible = false; /*  flag to toggle the display of dropdown in audience step */
   public audienceCategories = JSON.parse(JSON.stringify(audienceCategories)).categoryData;  /*  data to display in the audience dropdown */
   dialogRef!: MatDialogRef<DialogComponent>; /*  reference of dialog */
-  index!: number | null; /* variable to store the index of existing object  */
+  id!: number | null; /* variable to store the id of existing object  */
   isDraft: boolean = false; /* variable to store status of draft checkbox */
   status!: string;
 
@@ -62,18 +62,24 @@ export class CreateCampaignComponent {
 
   ngOnInit() {
     /**
-     * Get the index of existing object
-     * When index is -1,  this form will be used to create a new campaign object
-     * When index is a non negative number,  this form will be used to update the existing campaign object
+     * Get the id of existing object
+     * When id is -1,  this form will be used to create a new campaign object
+     * When id is a non negative number,  this form will be used to update the existing campaign object
      */
     const routerParam = this.activeRoute.snapshot.paramMap;
-    this.index = Number(routerParam.get("index"));
-    this.index = isNaN(this.index) ? -1 : this.index;
+    this.id = Number(routerParam.get("id"));
+    // this.id = !!this.id ? null : this.id;
+    console.log(this.id);
 
 
-    if (this.index >= 0) {
+
+    if (this.id > 0) {
+      console.log("fetching data for id ", this.id);
+
       /* fetch the data of existing campaign object */
-      this.newCampaign = this.service.getExistingCampaign(this.index);
+      this.newCampaign = this.service.getExistingCampaign(this.id);
+      console.log(this.newCampaign);
+
       this.initializeForm();
 
       /* populate the location FormArray with existing data */
@@ -137,8 +143,8 @@ export class CreateCampaignComponent {
 
 
   /**
-   * removes the location at given index from location formArray
-   * @param i index of the location in the formArray
+   * removes the location at given id from location formArray
+   * @param i id of the location in the formArray
    */
   removeControl(i: number) {
     (<FormArray>this.locationForm.get('locations')).removeAt(i);
@@ -174,7 +180,7 @@ export class CreateCampaignComponent {
       locations: this.locationForm.value.locations,
       radius: this.locationForm.value.radius,
       // status: this.isDraft ? 'Draft' : this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate),
-      status: (this.index < 0 && !this.isDraft) || (this.index >= 0 && !this.isDraft) ? this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate) : 'Draft',
+      status: (!!this.id && !this.isDraft) || (!!this.id && !this.isDraft) ? this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate) : 'Draft',
       startDate: this.scheduleForm.value.startDate,
       endDate: this.scheduleForm.value.endDate,
     };
@@ -193,14 +199,20 @@ export class CreateCampaignComponent {
 
   /**
    * save the campaign details
-   * when index is null,  a new campaign is created
-   * when index is a number, existing data is updated
+   * when id is null,  a new campaign is created
+   * when id is a number, existing data is updated
    */
   saveNewCampaign() {
-    if (this.index >= 0)
-      this.service.saveCampaignDetails(this.newCampaign, this.index);
-    else
-      this.service.saveCampaignDetails(this.newCampaign);
+    /* if (!!this.id)
+      this.service.saveCampaignDetails(this.newCampaign, this.id);
+    else */
+    this.service.saveCampaignDetails(this.newCampaign).subscribe({
+      next: (res) => {
+        this.openSnackBar();
+        this.service.getDataFromDatabase();
+        this.route.navigate(['/manage-campaign/list']);
+      }
+    });
   }
 
 
@@ -222,11 +234,8 @@ export class CreateCampaignComponent {
      * close the dialog
      */
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
-      if (flag) {
+      if (flag)
         this.saveNewCampaign();
-        this.openSnackBar();
-        this.route.navigate(['/manage-campaign/list']);
-      }
       this.dialogRef.close();
     });
 
@@ -238,7 +247,7 @@ export class CreateCampaignComponent {
   openSnackBar() {
     this._snackBar.openFromComponent(SnakBarComponent, {
       duration: 3000,
-      data: this.index ? "Updated the details successfully" : "Saved the Campaign data successfully"
+      data: this.id ? "Updated the details successfully" : "Saved the Campaign data successfully"
     });
   }
 

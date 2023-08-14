@@ -1,5 +1,6 @@
 <app-header [title]="title"></app-header>
 
+<h1 *ngIf="isFetching">Fetching data...</h1>
 <section class="__container">
   <button
     mat-raised-button
@@ -15,7 +16,7 @@
         <th
           mat-header-cell
           *matHeaderCellDef
-          sortActionDescription="Sort by id"
+          sortActionDescription="Sort by localId"
         >
           Id
         </th>
@@ -33,8 +34,8 @@
         </th>
         <td
           mat-cell
-          *matCellDef="let ele; let i = index"
-          [routerLink]="['/manage-campaign/view/' + i]"
+          *matCellDef="let ele"
+          [routerLink]="['/manage-campaign/view/' + ele.id]"
         >
           {{ ele.name }}
           <div class="link-icon"><mat-icon>open_in_new</mat-icon></div>
@@ -90,18 +91,22 @@
         >
           Actions
         </th>
-        <td mat-cell *matCellDef="let ele; let i = index">
+        <td mat-cell *matCellDef="let ele">
           <button mat-stroked-button [matMenuTriggerFor]="menu">Action</button>
           <mat-menu #menu="matMenu">
             <button
               mat-menu-item
               class="action-btns"
-              [routerLink]="['/manage-campaign/update/' + i]"
+              [routerLink]="['/manage-campaign/update/' + ele.id]"
             >
               <p>Edit</p>
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-menu-item class="action-btns" (click)="openDialog(i)">
+            <button
+              mat-menu-item
+              class="action-btns"
+              (click)="openDialog(ele.id)"
+            >
               <p>Delete</p>
               <mat-icon>delete</mat-icon>
             </button>
@@ -112,7 +117,7 @@
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
     </table>
-    <div class="table-placeholder" *ngIf="campaignData.length == 0">
+    <div class="table-placeholder" *ngIf="campaignData?.length == 0">
       <h2>Nothing to show here</h2>
     </div>
   </div>
