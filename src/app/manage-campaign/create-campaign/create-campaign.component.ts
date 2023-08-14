@@ -63,23 +63,15 @@ export class CreateCampaignComponent {
   ngOnInit() {
     /**
      * Get the id of existing object
-     * When id is -1,  this form will be used to create a new campaign object
-     * When id is a non negative number,  this form will be used to update the existing campaign object
+     * When id is NaN, this form will be used to create a new campaign object
+     * When id is a number, this form will be used to update the existing campaign object
      */
     const routerParam = this.activeRoute.snapshot.paramMap;
     this.id = Number(routerParam.get("id"));
-    // this.id = !!this.id ? null : this.id;
-    console.log(this.id);
-
-
 
     if (this.id > 0) {
-      console.log("fetching data for id ", this.id);
-
       /* fetch the data of existing campaign object */
       this.newCampaign = this.service.getExistingCampaign(this.id);
-      console.log(this.newCampaign);
-
       this.initializeForm();
 
       /* populate the location FormArray with existing data */
@@ -102,7 +94,7 @@ export class CreateCampaignComponent {
       objective: new FormControl(this.newCampaign.objective, [Validators.required, Validators.pattern('[a-zA-Z0-9]+.*'), Validators.maxLength(60)]),
       category: new FormControl(this.newCampaign.category),
       offerType: new FormControl(this.newCampaign.offerType),
-      comments: new FormControl(this.newCampaign.comments, Validators.pattern('[a-zA-Z0-9]+.*'))
+      comments: new FormControl(this.newCampaign.comments, [Validators.pattern('[a-zA-Z0-9]+.*'), Validators.maxLength(100)])
 
     });
 
@@ -130,10 +122,6 @@ export class CreateCampaignComponent {
     this.locationValue = '';
   }
 
-  log() {
-    console.log(this.detailsForm);
-  }
-
   /**
    * @returns the location formArray as iterable 
    */
@@ -144,31 +132,17 @@ export class CreateCampaignComponent {
 
   /**
    * removes the location at given id from location formArray
-   * @param i id of the location in the formArray
+   * @param index of the location in the formArray
    */
-  removeControl(i: number) {
-    (<FormArray>this.locationForm.get('locations')).removeAt(i);
+  removeControl(index: number) {
+    (<FormArray>this.locationForm.get('locations')).removeAt(index);
   }
 
   /**
    * Assigns the values from the forms to the newCampaign object
    */
   summarizeNewCampaign() {
-
-    /**
-    * Status is decided on following criteria
-    * If starting date is in future then status will be `Scheduled`
-    * If end date is in past then status will be `Completed`
-    * If starting date is not set then status will be `Draft`
-    */
-    const now = new Date().getTime();
-    const startDate = new Date(this.scheduleForm.value.startDate).getTime();
-    const endDate = new Date(this.scheduleForm.value.endDate).getTime() || new Date().getTime() + 1;
-    this.status = startDate < now && endDate < now ?
-      'Completed' : startDate < now && endDate > now ? 'In Progress' : startDate > now && endDate > startDate ? 'Scheduled' : 'Draft';
-
     this.isDraft = this.newCampaign.status == 'Draft' ? true : false;
-
 
     this.newCampaign = {
       ...this.newCampaign,
@@ -179,14 +153,12 @@ export class CreateCampaignComponent {
       comments: this.detailsForm.value.comments || 'No Comments',
       locations: this.locationForm.value.locations,
       radius: this.locationForm.value.radius,
-      // status: this.isDraft ? 'Draft' : this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate),
-      status: (!!this.id && !this.isDraft) || (!!this.id && !this.isDraft) ? this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate) : 'Draft',
+      status: (this.id && !this.isDraft) || !this.id ? this.service.getStatus(this.scheduleForm.value.startDate, this.scheduleForm.value.endDate) : 'Draft',
       startDate: this.scheduleForm.value.startDate,
       endDate: this.scheduleForm.value.endDate,
     };
 
   }
-
 
   toggleDraftStatus() {
     this.isDraft = !this.isDraft;
@@ -199,17 +171,15 @@ export class CreateCampaignComponent {
 
   /**
    * save the campaign details
-   * when id is null,  a new campaign is created
+   * when id is null/NaN,  a new campaign is created
    * when id is a number, existing data is updated
    */
   saveNewCampaign() {
-    /* if (!!this.id)
-      this.service.saveCampaignDetails(this.newCampaign, this.id);
-    else */
     this.service.saveCampaignDetails(this.newCampaign).subscribe({
       next: (res) => {
         this.openSnackBar();
         this.service.getDataFromDatabase();
+        this.dialogRef.close();
         this.route.navigate(['/manage-campaign/list']);
       }
     });
@@ -236,7 +206,9 @@ export class CreateCampaignComponent {
     this.dialogRef.componentInstance.emitter.subscribe(flag => {
       if (flag)
         this.saveNewCampaign();
-      this.dialogRef.close();
+      else {
+        this.dialogRef.close();
+      }
     });
 
   }

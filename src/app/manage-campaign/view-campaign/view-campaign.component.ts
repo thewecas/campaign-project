@@ -61,13 +61,16 @@ export class ViewCampaignComponent {
           next: (res) => {
             this.openSnackBar();
             this.service.getDataFromDatabase();
+            this.dialogRef.close();
             this.router.navigate(['/manage-campaign/list']);
           },
           error: (err) => console.error(err.message),
         });
 
       }
-      this.dialogRef.close();
+      else {
+        this.dialogRef.close();
+      }
     });
 
   }

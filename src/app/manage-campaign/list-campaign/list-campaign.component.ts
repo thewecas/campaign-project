@@ -36,11 +36,19 @@ export class ListCampaignComponent implements OnInit {
   constructor(private service: CampaignService, private matDialog: MatDialog, private _snackBar: MatSnackBar) {
   }
 
-
   ngOnInit(): void {
-    this.isFetching = true;
     this.campaignSubscription = this.service.getAllCampaigns().subscribe(res => {
-      this.isFetching = false;
+      // if (JSON.stringify(res) == JSON.stringify({})) {
+      //   console.log("calling getData from Database");
+
+      //   this.service.getAllCampaigns();
+      //   this.isFetching = false;
+      // }
+      // else {
+      //   this.isFetching=false
+      // }
+
+
       this.campaignData = Object.values(res);
       this.dataSource = new MatTableDataSource(this.campaignData);
       this.dataSource.sort = this.sort;
@@ -55,7 +63,7 @@ export class ListCampaignComponent implements OnInit {
   /**
    * Open the dialog to show delete confirmation dialog
    * pass the necessary data to display
-   * @param index of the campaign object whose action button in pressed
+   * @param id of the campaign object whose action button in pressed
    */
   openDialog(id: number) {
     this.dialogRef = this.matDialog.open(DialogComponent, {
@@ -76,12 +84,14 @@ export class ListCampaignComponent implements OnInit {
           next: (res) => {
             this.openSnackBar();
             this.service.getDataFromDatabase();
+            this.dialogRef.close();
           },
           error: (err) => console.error(err.message),
         });
       }
-      this.dialogRef.close();
-
+      else {
+        this.dialogRef.close();
+      }
     });
 
   }
